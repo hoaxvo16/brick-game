@@ -13,14 +13,11 @@ SDL_Texture* scoretext = NULL;
 message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
 	//Này bên tay phải
 message* resultGame_brick = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
-<<<<<<< HEAD
+
 float xball = WINDOW_WIDTH / 2;
 float yball = WINDOW_HEIGHT / 2;
-=======
 message* lifenum = NULL;
-int xball = WINDOW_WIDTH / 2;
-int yball = WINDOW_HEIGHT / 2;
->>>>>>> 350842af27a73ab005e734f18a97f5e63a7a14ac
+
 int xpaddle = WINDOW_WIDTH / 2 - 80;
 int ypaddle = WINDOW_HEIGHT - 10;
 BrickGame::BrickGame() {
