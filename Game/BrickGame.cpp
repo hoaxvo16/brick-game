@@ -4,11 +4,8 @@
 #include "BallObject.h"
 #include "message.h"
 PaddleObject* paddle_brick = NULL;
-
 BallObject* ball_brick = NULL;
-
 SDL_Texture* background_brick = NULL;
-
 //SDL_Renderer* Game::rendered = NULL;
 //Biến rendered được dùng để render(lưu lại những hình vẽ và vị trí của mỗi object, chờ cơ hội để bộc phát)
 
@@ -77,14 +74,15 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 }
 void BrickGame::update(){
 	paddle_brick->updateforbrick();	//Khác biệt duy nhất với Game.cpp :)))
+	ball_brick->move(paddle_brick);
 	ball_brick->update();
 }
 void BrickGame::render(){
 	SDL_RenderClear(rendered);
 	SDL_RenderCopy(BrickGame::rendered, background_brick, NULL, NULL);
 	paddle_brick->render();
-	scoreShow_brick->render(300, 50, 50, 25);
 	ball_brick->render();
+	scoreShow_brick->render(300, 50, 50, 25);
 	if (resultGame_brick != NULL)
 	{
 		resultGame_brick->render(300, 300, 50, 200);

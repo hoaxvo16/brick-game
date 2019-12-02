@@ -23,8 +23,11 @@ public:
 	void update();
 	void render();
 	void move(PaddleObject* p1, PaddleObject* p2);
+	void move(PaddleObject* p);
 	//Di chuyển quả banh
 	bool isTouch(PaddleObject *paddle1, PaddleObject *paddle2);
+	bool isTouch(PaddleObject* paddle);
+	int rectCollided(int cx, int cy, float radius, int rx, int ry, int rw, int rh);
 	//Xét sự va chạm
 	int isOut();
 	//Banh ra ngoài chưa?
