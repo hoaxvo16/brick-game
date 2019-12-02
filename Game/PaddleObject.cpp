@@ -49,21 +49,25 @@ int PaddleObject::getPaddleXpos()
 {
 	return xpos;
 }
-void PaddleObject::moveLeft()
-{
-	if (xpos > 0)
-	{	//Chưa tới đáy cửa sổ thì được xuống
-		xpos -= SPEED;
-	}
-}
-void PaddleObject::moveRight()
-{
-	if (xpos < WINDOW_WIDTH-155)
-	{//Chưa tới đỉnh thì được lên
-		xpos += SPEED;
-	}
-}
 int PaddleObject::getPaddleYpos()
 {
 	return ypos;
+}
+
+// Ham di chuyen cho Bot
+void PaddleObject::moveLeft() {
+	if (xpos > 0) {	//Chưa tới đáy cửa sổ thì được xuống
+		xpos -= SPEED;
+	}
+}
+void PaddleObject::moveRight() {
+	if (xpos < WINDOW_WIDTH - PADDLE_HEIGHT) {//Chưa tới đỉnh thì được lên
+		xpos += SPEED;
+	}
+}
+
+// Ham di chuyen chuot cho Player
+void PaddleObject::moveWithMouse(int xMouse) {
+	if (xMouse - PADDLE_HEIGHT / 2 > 0 && xMouse + PADDLE_HEIGHT / 2 < WINDOW_WIDTH)
+		xpos = xMouse - PADDLE_HEIGHT / 2;
 }

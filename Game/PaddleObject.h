@@ -27,6 +27,7 @@ public:
 	void render();
 	void moveLeft();
 	void moveRight();
+	void moveWithMouse(int xMouse);
 	int getPaddleXpos();	//Getter lấy tọa độ thanh
 	int getPaddleYpos();
 };

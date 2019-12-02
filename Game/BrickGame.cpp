@@ -98,24 +98,22 @@ void BrickGame::render(){
 void BrickGame::handleEvents() {
 	SDL_Event event;
 	SDL_PollEvent(&event);
+	int xMouse, yMouse;
 	switch (event.type) {
+	case SDL_MOUSEMOTION:
+		SDL_GetMouseState(&xMouse, &yMouse);
+		paddle_brick->moveWithMouse(xMouse);
+		std::cout << paddle_brick->getPaddleXpos() << ", " << paddle_brick->getPaddleYpos() << endl;
+		std::cout << xMouse << ", " << yMouse << endl;
+		std::cout << endl;
 	case SDL_KEYDOWN:
-	{
-		switch (event.key.keysym.sym)	//Không cần W S cho thanh thứ 2 nữa, do đã được tự động hóa
-		{
-		case SDLK_LEFT:
-			paddle_brick->moveLeft();
-			break;
-		case SDLK_RIGHT:
-			paddle_brick->moveRight();
-			break;
+		switch (event.key.keysym.sym) {
 		case SDLK_ESCAPE:
 			isRunning = false;
 			break;
 		default:
 			break;
 		}
-	}
 	}
 }
 void BrickGame::clean() {
