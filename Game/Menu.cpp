@@ -4,7 +4,7 @@ int drawMenu(AbstractGame* gameWindow, const int FPS)
 	SDL_Texture* title = textureManager::loadTexture("PNGFile/title.png");
 	SDL_Texture* player_select_1 = textureManager::loadTexture("PNGFile/player1.png");
 	SDL_Texture* player_select_2 = textureManager::loadTexture("PNGFile/player2.png");
-	SDL_Texture* player_select_3 = textureManager::loadTexture("PNGFile/player1.png");
+	SDL_Texture* player_select_3 = textureManager::loadTexture("PNGFile/brickmode.png");
 	SDL_Texture* quit_select = textureManager::loadTexture("PNGFile/quit.png");
 	SDL_Texture* selection = textureManager::loadTexture("PNGFile/select.png");
 	SDL_Rect select_1, select_2, select_3, select_4, select_0;
@@ -96,9 +96,9 @@ int drawMenu(AbstractGame* gameWindow, const int FPS)
 int drawSubMenu(AbstractGame* gameWindow, const int FPS)
 {
 	SDL_Texture* title = textureManager::loadTexture("PNGFile/title.png");
-	SDL_Texture* player_select_1 = textureManager::loadTexture("PNGFile/player1.png");
-	SDL_Texture* player_select_2 = textureManager::loadTexture("PNGFile/player2.png");
-	SDL_Texture* quit_select = textureManager::loadTexture("PNGFile/quit.png");
+	SDL_Texture* player_select_1 = textureManager::loadTexture("PNGFile/newgame.png");
+	SDL_Texture* player_select_2 = textureManager::loadTexture("PNGFile/continue.png");
+	SDL_Texture* quit_select = textureManager::loadTexture("PNGFile/exitmode.png");
 	SDL_Texture* selection = textureManager::loadTexture("PNGFile/select.png");
 	SDL_Rect select_1, select_2, select_3, select_0;
 	select_1.w = select_2.w = select_3.w = 200;

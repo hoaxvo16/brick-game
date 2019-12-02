@@ -8,9 +8,7 @@ BallObject* ball_brick = NULL;
 SDL_Texture* background_brick = NULL;
 //SDL_Renderer* Game::rendered = NULL;
 //Biến rendered được dùng để render(lưu lại những hình vẽ và vị trí của mỗi object, chờ cơ hội để bộc phát)
-
 message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
-	//Này bên tay phải
 message* resultGame_brick = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
 int xball = WINDOW_WIDTH / 2;
 int yball = WINDOW_HEIGHT / 2;
@@ -67,22 +65,21 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
 	/*Truy cập file hình ở bên ngoài thư mục chứa project
 	2 tham số sau chỉ vị trí sẽ xuất hình trên cửa sổ*/
-	background_brick = textureManager::loadTexture("PNGFile/court.png");	//Truy cập vào file hình chứa background
+	background_brick = textureManager::loadTexture("PNGFile/brick.jpg");	//Truy cập vào file hình chứa background
 	scoreShow_brick = new message();
 	resultGame_brick = NULL;
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
 }
 void BrickGame::update(){
 	paddle_brick->updateforbrick();	//Khác biệt duy nhất với Game.cpp :)))
-	ball_brick->move(paddle_brick);
 	ball_brick->update();
 }
 void BrickGame::render(){
 	SDL_RenderClear(rendered);
 	SDL_RenderCopy(BrickGame::rendered, background_brick, NULL, NULL);
 	paddle_brick->render();
-	ball_brick->render();
 	scoreShow_brick->render(300, 50, 50, 25);
+	ball_brick->render();
 	if (resultGame_brick != NULL)
 	{
 		resultGame_brick->render(300, 300, 50, 200);
@@ -96,19 +93,24 @@ void BrickGame::render(){
 void BrickGame::handleEvents() {
 	SDL_Event event;
 	SDL_PollEvent(&event);
-	int xMouse, yMouse;
 	switch (event.type) {
-	case SDL_MOUSEMOTION:
-		SDL_GetMouseState(&xMouse, &yMouse);
-		paddle_brick->moveWithMouse(xMouse);
 	case SDL_KEYDOWN:
-		switch (event.key.keysym.sym) {
+	{
+		switch (event.key.keysym.sym)	//Không cần W S cho thanh thứ 2 nữa, do đã được tự động hóa
+		{
+		case SDLK_LEFT:
+			paddle_brick->moveLeft();
+			break;
+		case SDLK_RIGHT:
+			paddle_brick->moveRight();
+			break;
 		case SDLK_ESCAPE:
 			isRunning = false;
 			break;
 		default:
 			break;
 		}
+	}
 	}
 }
 void BrickGame::clean() {
