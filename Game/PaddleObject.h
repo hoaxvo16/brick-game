@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "textureManager.h"
 #define PADDLE_WIDTH 13
-#define PADDLE_HEIGHT 153
+#define PADDLE_HEIGHT 152
 //Cái size của thanh chắn
 #define SRC_RECT_X 0
 #define SRC_RECT_Y 0

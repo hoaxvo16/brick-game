@@ -75,7 +75,7 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 		velocityY = -velocityY;
 		return true;
 	}
-	else if (ypos >= WINDOW_HEIGHT - destRect.h)
+	else if (ypos >= WINDOW_HEIGHT - BALL_RADIUS)
 	{
 		//Đụng dưới thì dội ngược lên
 		velocityY = -velocityY;
@@ -123,10 +123,10 @@ void BallObject::move(PaddleObject* p) {
 	isTouch(p);	//Xét sự va chạm
 
 }
-int BallObject::rectCollided(int cx, int cy, float radius, int rx, int ry, int rw, int rh) {
+int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, int rw, int rh) {
 	// temporary variables to set edges for testing
-	int testX = cx;
-	int testY = cy;
+	float testX = cx;
+	float testY = cy;
 	int edge = -1;
 	//0: left edge
 	//1: right edge
@@ -150,22 +150,65 @@ int BallObject::rectCollided(int cx, int cy, float radius, int rx, int ry, int r
 	}   
 
 	// get distance from closest edges
-	int distX = cx - testX;
-	int distY = cy - testY;
+	float distX = cx - testX;
+	float distY = cy - testY;
 	float distance = sqrt((distX * distX) + (distY * distY));
 
 	// if the distance is less than the radius, collision!
-	if (distance <= radius)
+	if (distance <= BALL_RADIUS)
 		return edge;
 	return -1;
+}
+
+float BallObject::getV() {
+	return sqrtf(velocityX * velocityX + velocityY * velocityY);
+}
+void BallObject::setAngle(float deg) {
+	float curV = getV();
+	velocityX = curV * cosf(deg);
+	velocityY = curV * sinf(deg);
+}
+/*
+set goc trai banh khi cham vo tung phan tren paddle
+|   | strike3
+|   | strike2
+|mid| strike1
+|   | strike2
+|   | strike3
+*/
+void BallObject::strikeAngle(PaddleObject* paddle) {
+	float layer1 = 26; float layer2 = 25;
+	float ballX = xpos + BALL_RADIUS / 2;
+	float mid = paddle->getPaddleXpos() + PADDLE_HEIGHT / 2;
+	float halfPI = PI / 2; // when someone ate your pie
+
+	srand(time(NULL));
+	float x = rand() % 10 + 0;
+	// Goc bat khac nhau cho trai banh
+	float strike1 = (14 + x) * PI / 180; float strike2 = (25 + x) * PI / 180; float strike3 = (57 + x) * PI / 180;
+
+	if (mid - layer1 <= ballX && ballX <= mid)
+		setAngle(-halfPI - strike1);
+	else if (mid < ballX && ballX < mid + layer1)
+		setAngle(-halfPI + strike1);
+
+	else if (mid - layer1 - layer2 <= ballX && ballX <= mid - layer1)
+		setAngle(-halfPI - strike2);
+	else if (mid + layer1 <= ballX && ballX <= mid + layer1 + layer2)
+		setAngle(-halfPI + strike2);
+
+	else if (paddle->getPaddleXpos() <= ballX && ballX < mid - layer1 - layer2)
+		setAngle(-halfPI - strike3);
+	else if (mid + layer1 + layer2 < ballX && ballX <= paddle->getPaddleXpos() + PADDLE_HEIGHT)
+		setAngle(-halfPI + strike3);
 }
 bool BallObject::isTouch(PaddleObject* paddle) {
 	if (ypos <= 0) {
 		//Đụng trên thì dội ngược lại
 		velocityY = -velocityY;
 		return true;
-	} else if (xpos <= 0 || xpos >= WINDOW_WIDTH - destRect.w) {
-		velocityX *= -1;
+	} else if (xpos <= 0 || xpos >= WINDOW_WIDTH - BALL_RADIUS) {
+		velocityX = -velocityX;
 		return true;
 	}
 
@@ -173,7 +216,12 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 	int paddleYpos = paddle->getPaddleYpos();
 	int edgeRes = rectCollided(xpos, ypos, BALL_RADIUS + 0.0, paddleXpos, paddleYpos, PADDLE_HEIGHT, PADDLE_WIDTH);
 	if (edgeRes == 2) {
-		velocityY *= -1;
+		strikeAngle(paddle);
+		if (count <= 30) {	//Tăng theo gia tốc, tối đa 30 lần
+			velocityX *= 1 + accelerate;
+			velocityY *= 1 + accelerate;
+			count++;
+		}
 		return true;
 	}
 	return false;
