@@ -66,7 +66,7 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
 	/*Truy cập file hình ở bên ngoài thư mục chứa project
 	2 tham số sau chỉ vị trí sẽ xuất hình trên cửa sổ*/
-	background_brick = textureManager::loadTexture("PNGFile/court.png");	//Truy cập vào file hình chứa background
+	background_brick = textureManager::loadTexture("PNGFile/brick.jpg");	//Truy cập vào file hình chứa background
 	scoreShow_brick = new message();
 	resultGame_brick = NULL;
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
