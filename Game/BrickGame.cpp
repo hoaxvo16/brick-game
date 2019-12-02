@@ -6,14 +6,21 @@
 PaddleObject* paddle_brick = NULL;
 BallObject* ball_brick = NULL;
 SDL_Texture* background_brick = NULL;
+SDL_Texture* life = NULL;
+SDL_Texture* scoretext = NULL;
 //SDL_Renderer* Game::rendered = NULL;
 //Biến rendered được dùng để render(lưu lại những hình vẽ và vị trí của mỗi object, chờ cơ hội để bộc phát)
-
 message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
 	//Này bên tay phải
 message* resultGame_brick = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
+<<<<<<< HEAD
 float xball = WINDOW_WIDTH / 2;
 float yball = WINDOW_HEIGHT / 2;
+=======
+message* lifenum = NULL;
+int xball = WINDOW_WIDTH / 2;
+int yball = WINDOW_HEIGHT / 2;
+>>>>>>> 350842af27a73ab005e734f18a97f5e63a7a14ac
 int xpaddle = WINDOW_WIDTH / 2 - 80;
 int ypaddle = WINDOW_HEIGHT - 10;
 BrickGame::BrickGame() {
@@ -66,9 +73,13 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
 	/*Truy cập file hình ở bên ngoài thư mục chứa project
 	2 tham số sau chỉ vị trí sẽ xuất hình trên cửa sổ*/
-	background_brick = textureManager::loadTexture("PNGFile/brick.jpg");	//Truy cập vào file hình chứa background
+	background_brick = textureManager::loadTexture("PNGFile/brick.jpg");
+	life = textureManager::loadTexture("PNGFile/life.png");	
+	scoretext = textureManager::loadTexture("PNGFile/score.png");//Truy cập vào file hình chứa background
 	scoreShow_brick = new message();
+	lifenum = new message();
 	resultGame_brick = NULL;
+	lifenum->setText(3);
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
 }
 void BrickGame::update() {
@@ -78,10 +89,22 @@ void BrickGame::update() {
 }
 void BrickGame::render() {
 	SDL_RenderClear(rendered);
+	SDL_Rect scorepic;
+	SDL_Rect lifepic;
+	lifepic.w = 80;
+	lifepic.h = 40;
+	lifepic.x = WINDOW_WIDTH - lifepic.w;;
+	lifepic.y = 0;
+	scorepic.w = 80;
+    scorepic.h = 25;
+	scorepic.x = scorepic.y = 0;
 	SDL_RenderCopy(BrickGame::rendered, background_brick, NULL, NULL);
+	SDL_RenderCopy(BrickGame::rendered, life, NULL, &lifepic);
+	SDL_RenderCopy(BrickGame::rendered, scoretext, NULL, &scorepic);
 	paddle_brick->render();
 	ball_brick->render();
 	scoreShow_brick->render(300, 50, 50, 25);
+	lifenum->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brick != NULL) {
 		resultGame_brick->render(300, 300, 50, 200);
 	}

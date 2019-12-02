@@ -6,7 +6,7 @@ class message
 {
 private:
 	std::string text = "";	//Chuỗi sẽ in ra trên màn hình
-	SDL_Color color = { 255,0,0 };	//Màu của text, đang để màu đỏ
+	SDL_Color color = { 255,255,255 };	//Màu của text, đang để màu đỏ
 public:
 	message();
 	~message();
