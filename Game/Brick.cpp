@@ -1,6 +1,6 @@
 #include "Brick.h"
 
-Brick::Brick(int empty, const char* brickSheet, int x, int y, int width, int height, string type, int hp, bool loot) {
+Brick::Brick(int empty, const char* brickSheet, float x, float y, int width, int height, string type, int hp, bool loot) {
 	brickTexture = textureManager::loadTexture(brickSheet);
 	_empty = empty;
 	_x = x;

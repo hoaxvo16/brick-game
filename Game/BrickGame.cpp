@@ -1,5 +1,4 @@
-﻿#include "BrickGame.h"
-#include "Rect.h"
+﻿#include "Rect.h"
 #include "textureManager.h"
 #include "PaddleObject.h"
 #include "BallObject.h"
@@ -16,7 +15,7 @@ message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
 message* resultGame_brick = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
 
 float xball = WINDOW_WIDTH / 2;
-float yball = WINDOW_HEIGHT / 2;
+float yball = WINDOW_HEIGHT - 100;
 message* lifenum = NULL;
 
 int xpaddle = WINDOW_WIDTH / 2 - 80;
@@ -29,16 +28,17 @@ BrickGame::~BrickGame() {
 }
 void BrickGame::initTable() {
 	srand(time(NULL));
-	table.resize(10);
-	for (size_t i = 0; i < 10; i++)
-		table[i].resize(20);
-	for (size_t i = 0; i < 150; i++) {
-		size_t ranX = rand() % 20;
-		size_t ranY = rand() % 10;
-		Brick* brick = new Rect(0, "PNGFile/rect.png", ranX * 40, (ranY + 1) * 30, 40, 30, "rect", 1, true);
-		/*if () {*/
-		table[ranY][ranX] = brick;
-		//}
+	table.resize(5);
+	for (size_t i = 0; i < 5; i++)
+		table[i].resize(10);
+	for (size_t i = 0; i < 30;) {
+		size_t ranX = rand() % 10;
+		size_t ranY = rand() % 5;
+		Brick* brick = new Rect(0, "PNGFile/rect.png", ranX * 80, (ranY + 1) * 60, 80, 60, "rect", 1, true);
+		if (table[ranY][ranX] == NULL) {
+			table[ranY][ranX] = brick;
+			i++;
+		}
 	}
 }
 void BrickGame::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen) {
@@ -99,7 +99,7 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 }
 void BrickGame::update() {
 	paddle_brick->updateforbrick();	//Khác biệt duy nhất với Game.cpp :)))
-	ball_brick->move(paddle_brick);
+	ball_brick->move(paddle_brick, table);
 	ball_brick->update();
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
