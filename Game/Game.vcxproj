@@ -136,6 +136,7 @@
     <ClCompile Include="AbstractGame.cpp" />
     <ClCompile Include="BallObject.cpp" />
     <ClCompile Include="BotPaddle.cpp" />
+    <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickGame.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameBOT.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="AbstractGame.h" />
     <ClInclude Include="BallObject.h" />
     <ClInclude Include="BotPaddle.h" />
+    <ClInclude Include="Brick.h" />
     <ClInclude Include="BrickGame.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameBOT.h" />

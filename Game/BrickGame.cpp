@@ -151,6 +151,7 @@ void BrickGame::handleEvents() {
 	case SDL_MOUSEMOTION:
 		SDL_GetMouseState(&xMouse, &yMouse);
 		paddle_brick->moveWithMouse(xMouse);
+		break;
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
 		case SDLK_ESCAPE:
