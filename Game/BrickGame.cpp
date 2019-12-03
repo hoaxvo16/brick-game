@@ -1,4 +1,5 @@
 ﻿#include "BrickGame.h"
+#include "Rect.h"
 #include "textureManager.h"
 #include "PaddleObject.h"
 #include "BallObject.h"
@@ -25,6 +26,20 @@ BrickGame::BrickGame() {
 }
 BrickGame::~BrickGame() {
 
+}
+void BrickGame::initTable() {
+	srand(time(NULL));
+	table.resize(10);
+	for (size_t i = 0; i < 10; i++)
+		table[i].resize(20);
+	for (size_t i = 0; i < 150; i++) {
+		size_t ranX = rand() % 20;
+		size_t ranY = rand() % 10;
+		Brick* brick = new Rect(0, "PNGFile/rect.png", ranX * 40, (ranY + 1) * 30, 40, 30, "rect", 1, true);
+		/*if () {*/
+		table[ranY][ranX] = brick;
+		//}
+	}
 }
 void BrickGame::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen) {
 	int flag = 0;	//flag = 0 báo hiệu cho việc chúng ta sẽ sử dụng cửa sổ chứ không phải fullscreen
@@ -73,16 +88,25 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	background_brick = textureManager::loadTexture("PNGFile/brick.jpg");
 	life = textureManager::loadTexture("PNGFile/life.png");	
 	scoretext = textureManager::loadTexture("PNGFile/score.png");//Truy cập vào file hình chứa background
+	initTable();
+	
 	scoreShow_brick = new message();
 	lifenum = new message();
 	resultGame_brick = NULL;
 	lifenum->setText(3);
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
+	
 }
 void BrickGame::update() {
 	paddle_brick->updateforbrick();	//Khác biệt duy nhất với Game.cpp :)))
 	ball_brick->move(paddle_brick);
 	ball_brick->update();
+	for (size_t i = 0; i < table.size(); i++) {
+		for (size_t j = 0; j < table[i].size(); j++) {
+			if (table[i][j] != NULL) 
+				table[i][j]->update();
+		}
+	}
 }
 void BrickGame::render() {
 	SDL_RenderClear(rendered);
@@ -100,11 +124,20 @@ void BrickGame::render() {
 	SDL_RenderCopy(BrickGame::rendered, scoretext, NULL, &scorepic);
 	paddle_brick->render();
 	ball_brick->render();
+	for (size_t i = 0; i < table.size(); i++) {
+		for (size_t j = 0; j < table[i].size(); j++) {
+			if (table[i][j] != NULL)
+				table[i][j]->render();
+		}
+	}
+
 	scoreShow_brick->render(300, 50, 50, 25);
 	lifenum->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brick != NULL) {
 		resultGame_brick->render(300, 300, 50, 200);
 	}
+
+	
 	SDL_RenderPresent(BrickGame::rendered);
 	if (!isRunning) {
 		SDL_Delay(2000);
