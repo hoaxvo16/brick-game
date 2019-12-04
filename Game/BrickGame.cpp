@@ -89,13 +89,10 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	life = textureManager::loadTexture("PNGFile/life.png");	
 	scoretext = textureManager::loadTexture("PNGFile/score.png");//Truy cập vào file hình chứa background
 	initTable();
-	
 	scoreShow_brick = new message();
 	lifenum = new message();
 	resultGame_brick = NULL;
-	lifenum->setText(3);
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
-	
 }
 void BrickGame::update() {
 	paddle_brick->updateforbrick();	//Khác biệt duy nhất với Game.cpp :)))
@@ -107,6 +104,14 @@ void BrickGame::update() {
 				table[i][j]->update();
 		}
 	}
+	int new_life = ball_brick->getLife();
+	if (new_life == 0)
+	{
+		resultGame_brick = new message();
+		resultGame_brick->setText("You Lose");
+		isRunning = false;
+	}
+	lifenum->setText(new_life);
 }
 void BrickGame::render() {
 	SDL_RenderClear(rendered);
@@ -130,14 +135,11 @@ void BrickGame::render() {
 				table[i][j]->render();
 		}
 	}
-
 	scoreShow_brick->render(300, 50, 50, 25);
 	lifenum->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brick != NULL) {
 		resultGame_brick->render(300, 300, 50, 200);
 	}
-
-	
 	SDL_RenderPresent(BrickGame::rendered);
 	if (!isRunning) {
 		SDL_Delay(2000);

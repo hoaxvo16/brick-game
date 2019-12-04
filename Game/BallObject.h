@@ -18,6 +18,7 @@ private:
 	float velocityX, velocityY;	//Vận tốc x, y của quả banh
 	int score1 = 0;	//Điểm của player 1
 	int score2 = 0;	//Điểm của player 2
+	int life = 3;
 public:
 	BallObject(const char* ballsheet, int x, int y);
 	~BallObject();
@@ -46,6 +47,10 @@ public:
 	int getCenterOfBall()	//Lấy tung độ tại tâm quả banh
 	{
 		return ypos + BALL_RADIUS / 2;
+	}
+	int getLife()
+	{
+		return life;
 	}
 };
 
