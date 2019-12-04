@@ -41,7 +41,7 @@ void BrickGame::initTable() {
 		}
 	}
 }
-void BrickGame::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen) {
+void BrickGame::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen,int savegame) {
 	int flag = 0;	//flag = 0 báo hiệu cho việc chúng ta sẽ sử dụng cửa sổ chứ không phải fullscreen
 	if (fullscreen) {
 		//Còn nếu user cứ thích đòi fullscreen thì chỉnh lại thôi (mặc dù chương trình không cho hỏi :v)

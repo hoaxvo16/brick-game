@@ -11,7 +11,7 @@ public:
 	AbstractGame(){}
 	~AbstractGame(){}
 	static SDL_Renderer* rendered;
-	virtual void init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen) = 0;
+	virtual void init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen,int savegame) = 0;
 	virtual void update()=0;
 	virtual void render()=0;
 	virtual void handleEvents()=0;

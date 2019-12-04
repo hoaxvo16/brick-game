@@ -21,7 +21,7 @@ GameBOT::GameBOT() {
 GameBOT::~GameBOT() {
 
 }
-void GameBOT::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen) {
+void GameBOT::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen,int savegame) {
 	int flag = 0;
 	if (fullscreen) {
 		flag = SDL_WINDOW_FULLSCREEN;

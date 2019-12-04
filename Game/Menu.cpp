@@ -181,3 +181,97 @@ int drawSubMenu(AbstractGame* gameWindow, const int FPS)
 	}
 	return decision;
 }
+int drawSubMenuNotSave(AbstractGame* gameWindow, const int FPS)
+{
+
+	SDL_Texture* title = textureManager::loadTexture("PNGFile/title.png");
+	SDL_Texture* player_select_1 = textureManager::loadTexture("PNGFile/newgame.png");
+	SDL_Texture* quit_select = textureManager::loadTexture("PNGFile/exitmode.png");
+	SDL_Texture* selection = textureManager::loadTexture("PNGFile/select.png");
+	SDL_Rect select_1, select_2,select_0;
+	select_1.w = select_2.w = 200;
+	select_1.h = select_2.h = 50;
+	select_1.x = select_2.x = 300;
+	select_1.y = 300;
+	select_2.y = select_1.y + 2 * select_1.h;
+	bool wasSelected = false;
+	select_0 = select_1;
+	int decision = 0;
+	int frameStart, frameTime;
+	const int frameDelay = 1000 / FPS;
+	bool stop = false;
+	SDL_RenderClear(gameWindow->rendered);
+	SDL_RenderCopy(gameWindow->rendered, title, NULL, NULL);
+	SDL_RenderCopy(gameWindow->rendered, player_select_1, NULL, &select_1);
+	SDL_RenderCopy(gameWindow->rendered, quit_select, NULL, &select_2);
+	SDL_RenderCopy(gameWindow->rendered, selection, NULL, &select_0);
+	while (!wasSelected)
+	{
+		frameStart = SDL_GetTicks();
+		stop = false;
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
+			{
+				stop = true;
+				switch (event.key.keysym.sym)
+				{
+				case SDLK_UP:
+				{
+					if (decision > 0)
+					{
+						decision--;
+					}
+					if (decision == 0) select_0 = select_1;
+					else select_0 = select_2;
+					break;
+				}
+				break;
+				case SDLK_DOWN:
+				{
+					if (decision < 1)
+					{
+						decision++;
+					}
+					if (decision == 0) select_0 = select_1;
+					else select_0 = select_2;
+					break;
+				}
+				break;
+				case SDLK_RETURN:
+				case SDLK_ESCAPE:
+				{
+					wasSelected = true;
+					break;
+				}
+				break;
+				default:
+					break;
+				}
+			}
+		}
+		SDL_RenderClear(gameWindow->rendered);
+		SDL_RenderCopy(gameWindow->rendered, title, NULL, NULL);
+		SDL_RenderCopy(gameWindow->rendered, player_select_1, NULL, &select_1);
+		SDL_RenderCopy(gameWindow->rendered, quit_select, NULL, &select_2);
+		SDL_RenderCopy(gameWindow->rendered, selection, NULL, &select_0);
+		SDL_RenderPresent(gameWindow->rendered);
+		frameTime = SDL_GetTicks() - frameStart;
+		if (frameDelay > frameTime) {
+			SDL_Delay(frameDelay - frameTime);
+		}
+	}
+	return decision;
+}
+bool isSaveGame()
+{
+	string s;
+	ifstream filegame;
+	filegame.open("PNGFile/savegame.txt");
+	getline(filegame, s);
+	filegame.close();
+	if (s == "")
+		return false;
+	return true;
+}

@@ -13,14 +13,14 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 	{
 		system("cls");
 		AbstractGame* menu = new Game();
-		loop:menu->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
+		loop:menu->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,0);
 		decision = drawMenu(menu, FPS);
 		menu->clean();
 		if (decision == 2)
 		{
 			AbstractGame* game = new Game();	//Khoi tao game de choi
 		// Chi can thay GameBOT <-> Game de doi che do choi
-			game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
+			game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,0);
 			//Khoi tao cua so tro choi, cua so se nam giua man hinh
 			//WINDOW_WIDTH la do rong cua cua so
 			//WINDOW_HEIGHT la chieu cao cua cua so
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 		{
 			AbstractGame* game = new GameBOT();//Khoi tao game de choi
 	// Chi can thay GameBOT <-> Game de doi che do choi
-			game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
+			game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,0);
 			//Khoi tao cua so tro choi, cua so se nam giua man hinh
 			//WINDOW_WIDTH la do rong cua cua so
 			//WINDOW_HEIGHT la chieu cao cua cua so
@@ -66,17 +66,26 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 			while (savegame != 2)
 			{
 				system("cls");
+				bool isSave = isSaveGame();
 				AbstractGame* submenu = new Game();
-				submenu->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
-				int savegame = drawSubMenu(submenu, FPS);
-				submenu->clean();
-				if (savegame == 2)
+				submenu->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,0);
+				if (isSave)
+				{
+					savegame = drawSubMenu(submenu, FPS);
+					submenu->clean();
+				}
+				else
+				{
+					savegame = drawSubMenuNotSave(submenu, FPS);
+					submenu->clean();
+				}
+				if (savegame == 2&&isSave||savegame==1&&!isSave)
 					goto loop;
 				if (savegame == 0 || savegame == 1)
 				{
 					AbstractGame* game = new BrickGame();//Khoi tao game de choi
 			// Chi can thay GameBOT <-> Game de doi che do choi
-					game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
+					game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,savegame);
 					//Khoi tao cua so tro choi, cua so se nam giua man hinh
 					//WINDOW_WIDTH la do rong cua cua so
 					//WINDOW_HEIGHT la chieu cao cua cua so

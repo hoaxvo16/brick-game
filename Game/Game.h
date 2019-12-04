@@ -11,7 +11,7 @@ class Game : public AbstractGame
 public:
 	Game();
 	~Game();
-	void init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen);
+	void init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen,int savegame);
 	//Khởi tạo cửa sổ với title là tên Cửa sổ
 	//xpos, ypos là nơi đặt cửa sổ trên màn hình
 	//width, height là size của cửa sổ

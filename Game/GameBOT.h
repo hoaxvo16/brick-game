@@ -9,7 +9,7 @@ class GameBOT : public AbstractGame
 public:
 	GameBOT();
 	~GameBOT();
-	void init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen);
+	void init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen,int savegame);
 	void update();
 	void render();
 	void handleEvents();
