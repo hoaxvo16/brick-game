@@ -40,13 +40,8 @@ void BallObject::update()
 	//}
 	if (outSide == 1) {
 		xpos = WINDOW_WIDTH / 2;	
-<<<<<<< HEAD
-		ypos = WINDOW_HEIGHT / 2;
-		life--;
-=======
-		life--;
                 ypos = WINDOW_HEIGHT - 100;
->>>>>>> 93b796d347934b4eb0aef4998c002434a1d1a6cd
+		life--;
 	}
 	destRect.x = xpos;
 	destRect.y = ypos;
