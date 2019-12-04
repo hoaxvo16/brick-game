@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Game.h"
 #include "PaddleObject.h"
+#include "BrickGame.h"
 #include <conio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -25,10 +26,12 @@ public:
 	void update();
 	void render();
 	void move(PaddleObject* p1, PaddleObject* p2);
-	void move(PaddleObject* p);
+	void move(PaddleObject* p, vector<vector<Brick*>> table);
 	//Di chuyển quả banh
 	bool isTouch(PaddleObject *paddle1, PaddleObject *paddle2);
 	bool isTouch(PaddleObject* paddle);
+	bool isTouchWithTarget(vector<vector<Brick*>> table);
+
 	float getV();
 	void setAngle(float deg);
 	void strikeAngle(PaddleObject* paddle);

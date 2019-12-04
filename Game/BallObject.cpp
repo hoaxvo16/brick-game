@@ -1,7 +1,7 @@
 ﻿#include "BallObject.h"
 float random();
 float accelerate = 0.1;	//Gia tốc
-int count = 0;	//Số lần tăng vận tốc theo gia tốc
+int speed = 0;	//Số lần tăng vận tốc theo gia tốc
 BallObject::BallObject(const char* ballsheet, int x, int y)
 {
 	ballTexture = textureManager::loadTexture(ballsheet);
@@ -40,8 +40,12 @@ void BallObject::update()
 	//}
 	if (outSide == 1) {
 		xpos = WINDOW_WIDTH / 2;	
+<<<<<<< HEAD
 		ypos = WINDOW_HEIGHT / 2;
 		life--;
+=======
+		ypos = WINDOW_HEIGHT - 100;
+>>>>>>> 984beba4744f0ec39a34d8f73a457c089747bca3
 	}
 	destRect.x = xpos;
 	destRect.y = ypos;
@@ -88,11 +92,11 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 		//Đụng thanh bên trái dội ngược ra bên phải
 		xpos = paddleXpos + paddleWidth + 1;	//Điều chỉnh vị trí quả banh cho không bị đè lên thanh
 		velocityX = -velocityX;
-		if (count <= 30)
+		if (speed <= 30)
 		{	//Tăng theo gia tốc, tối đa 30 lần
 			velocityX *= 1 + accelerate;
 			velocityY *= 1 + accelerate;
-			count++;
+			speed++;
 		}
 		return true;
 	}
@@ -102,18 +106,18 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 	{	//Tương tự bên trên cho thanh bên phải
 		xpos = paddleXpos - destRect.w - 1;
 		velocityX = -velocityX;
-		if (count <= 30)
+		if (speed <= 30)
 		{
 			velocityX *= 1 + accelerate;
 			velocityY *= 1 + accelerate;
-			count++;
+			speed++;
 		}
 		return true;
 	}
 	return false;
 }
 
-void BallObject::move(PaddleObject* p) {
+void BallObject::move(PaddleObject* p, vector<vector<Brick*>> table) {
 	if (velocityX == 0 && velocityY == 0) {	//Phat sinh luc bat dau game
 		velocityX -= 2.9;
 		velocityY -= 2.9;
@@ -121,6 +125,7 @@ void BallObject::move(PaddleObject* p) {
 	xpos += velocityX;	//Cộng theo vận tốc
 	ypos += velocityY;
 	isTouch(p);	//Xét sự va chạm
+	isTouchWithTarget(table);
 
 }
 int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, int rw, int rh) {
@@ -140,7 +145,7 @@ int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, i
 	} else if (cx > rx + rw) {  // right edge
 		testX = rx + rw;
 		edge = 1;
-	}  
+	} 
 	if (cy < ry) { // top edge
 		testY = ry;
 		edge = 2;
@@ -152,10 +157,9 @@ int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, i
 	// get distance from closest edges
 	float distX = cx - testX;
 	float distY = cy - testY;
-	float distance = sqrt((distX * distX) + (distY * distY));
 
 	// if the distance is less than the radius, collision!
-	if (distance <= BALL_RADIUS)
+	if (sqrt((distX * distX) + (distY * distY)) <= BALL_RADIUS)
 		return edge;
 	return -1;
 }
@@ -203,6 +207,7 @@ void BallObject::strikeAngle(PaddleObject* paddle) {
 		setAngle(-halfPI + strike3);
 }
 bool BallObject::isTouch(PaddleObject* paddle) {
+
 	if (ypos <= 0) {
 		//Đụng trên thì dội ngược lại
 		velocityY = -velocityY;
@@ -217,12 +222,39 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 	int edgeRes = rectCollided(xpos, ypos, BALL_RADIUS + 0.0, paddleXpos, paddleYpos, PADDLE_HEIGHT, PADDLE_WIDTH);
 	if (edgeRes == 2) {
 		strikeAngle(paddle);
-		if (count <= 30) {	//Tăng theo gia tốc, tối đa 30 lần
+		if (speed <= 30) {	//Tăng theo gia tốc, tối đa 30 lần
 			velocityX *= 1 + accelerate;
 			velocityY *= 1 + accelerate;
-			count++;
+			speed++;
 		}
 		return true;
+	}
+	return false;
+}
+bool BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
+	for (size_t i = 0; i < table.size(); i++) {
+		for (size_t j = 0; j < table[i].size(); j++) {
+			Brick* target = table[i][j];
+			if (target == NULL) continue;
+			int edge = rectCollided(xpos + (BALL_RADIUS + 0.0) / 2, ypos + (BALL_RADIUS + 0.0) / 2, (BALL_RADIUS / 2) + 0.0, target->getX(), target->getY(), target->getW(), target->getH());
+			if (edge == 0) {
+				if (velocityX < 0) return false;
+				velocityX = -velocityX;
+				return true;
+			} else if (edge == 1) {
+				if (velocityX > 0) return false;
+				velocityX = -velocityX;
+				return true;
+			} else if (edge == 2) {
+				if (velocityY < 0) return false;
+				velocityY = -velocityY;
+				return true;
+			} else if (edge == 3) {
+				if (velocityY > 0) return false;
+				velocityY = -velocityY;
+				return true;
+			}
+		}
 	}
 	return false;
 }
