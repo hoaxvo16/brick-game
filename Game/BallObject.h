@@ -26,11 +26,11 @@ public:
 	void update();
 	void render();
 	void move(PaddleObject* p1, PaddleObject* p2);
-	void move(PaddleObject* p, vector<vector<Brick*>> table);
+	void move(PaddleObject* p, vector<vector<Brick*>>& table);
 	//Di chuyển quả banh
 	bool isTouch(PaddleObject *paddle1, PaddleObject *paddle2);
 	bool isTouch(PaddleObject* paddle);
-	bool isTouchWithTarget(vector<vector<Brick*>> table);
+	Brick* isTouchWithTarget(vector<vector<Brick*>> table);
 
 	float getV();
 	void setAngle(float deg);

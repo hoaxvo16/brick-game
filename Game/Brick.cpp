@@ -1,10 +1,12 @@
 #include "Brick.h"
 
-Brick::Brick(int empty, const char* brickSheet, float x, float y, int width, int height, string type, int hp, bool loot) {
-	brickTexture = textureManager::loadTexture(brickSheet);
-	_empty = empty;
-	_x = x;
-	_y = y;
+Brick::Brick(string brickSheet, int x, int y, int width, int height, string type, int hp, bool loot) {
+	brickTexture = textureManager::loadTexture(brickSheet.c_str());
+	_sheet = brickSheet;
+	_x = x * 80;
+	_y = y * 60 + 1;
+	_tableX = y; //row is y
+	_tableY = x; //column is x
 	_width = width;
 	_height = height;
 	_type = type;

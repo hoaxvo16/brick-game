@@ -113,7 +113,7 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 	return false;
 }
 
-void BallObject::move(PaddleObject* p, vector<vector<Brick*>> table) {
+void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 	if (velocityX == 0 && velocityY == 0) {	//Phat sinh luc bat dau game
 		velocityX -= 2.9;
 		velocityY -= 2.9;
@@ -121,8 +121,12 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>> table) {
 	xpos += velocityX;	//Cộng theo vận tốc
 	ypos += velocityY;
 	isTouch(p);	//Xét sự va chạm
-	isTouchWithTarget(table);
-
+	Brick* target = isTouchWithTarget(table);
+	if (target != NULL) {
+		if (target->getHp() == 1)
+			table[(size_t) target->getTableX()][(size_t) target->getTableY()] = NULL;
+		else target->updateHpImg();
+	}
 }
 int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, int rw, int rh) {
 	// temporary variables to set edges for testing
@@ -227,32 +231,32 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 	}
 	return false;
 }
-bool BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
+Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			Brick* target = table[i][j];
 			if (target == NULL) continue;
 			int edge = rectCollided(xpos + (BALL_RADIUS + 0.0) / 2, ypos + (BALL_RADIUS + 0.0) / 2, (BALL_RADIUS / 2) + 0.0, target->getX(), target->getY(), target->getW(), target->getH());
 			if (edge == 0) {
-				if (velocityX < 0) return false;
+				if (velocityX < 0) return NULL;
 				velocityX = -velocityX;
-				return true;
+				return target;
 			} else if (edge == 1) {
-				if (velocityX > 0) return false;
+				if (velocityX > 0) return NULL;
 				velocityX = -velocityX;
-				return true;
+				return target;
 			} else if (edge == 2) {
-				if (velocityY < 0) return false;
+				if (velocityY < 0) return NULL;
 				velocityY = -velocityY;
-				return true;
+				return target;
 			} else if (edge == 3) {
-				if (velocityY > 0) return false;
+				if (velocityY > 0) return NULL;
 				velocityY = -velocityY;
-				return true;
+				return target;
 			}
 		}
 	}
-	return false;
+	return NULL;
 }
 //int BallObject::isOut()
 //{

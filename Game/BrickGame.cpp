@@ -34,7 +34,8 @@ void BrickGame::initTable() {
 	for (size_t i = 0; i < 30;) {
 		size_t ranX = rand() % 10;
 		size_t ranY = rand() % 5;
-		Brick* brick = new Rect(0, "PNGFile/rect.png", ranX * 80, (ranY + 1) * 60, 80, 60, "rect", 1, true);
+		Brick* brick = new Rect("PNGFile/rect3.png", ranX, ranY, 80, 60, "rect", 3, true);
+
 		if (table[ranY][ranX] == NULL) {
 			table[ranY][ranX] = brick;
 			i++;

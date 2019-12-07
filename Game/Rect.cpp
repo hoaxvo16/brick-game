@@ -1,9 +1,23 @@
 #include "Rect.h"
 
-float Rect::getX() { return _x; }
+int Rect::getX() { return _x; }
 
-float Rect::getY() { return _y; }
+int Rect::getY() { return _y; }
 
 int Rect::getW() { return _width; }
 
 int Rect::getH() { return _height; }
+
+void Rect::updateHpImg() {
+	//change img
+	_hp--;
+	switch (_hp) {
+	case 1:
+		_sheet = "PNGFile/rect1.png";
+		break;
+	case 2:
+		_sheet = "PNGFile/rect2.png";
+		break;
+	}
+	brickTexture = textureManager::loadTexture(_sheet.c_str());
+}
