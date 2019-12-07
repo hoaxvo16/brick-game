@@ -79,9 +79,9 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 					savegame = drawSubMenuNotSave(submenu, FPS);
 					submenu->clean();
 				}
-				if (savegame == 2&&isSave||savegame==1&&!isSave)
+				if (savegame == 3&&isSave||savegame==2&&!isSave)
 					goto loop;
-				if (savegame == 0 || savegame == 1)
+				if (savegame == 0 || savegame == 1||savegame==2)
 				{
 					AbstractGame* game = new BrickGame();//Khoi tao game de choi
 			// Chi can thay GameBOT <-> Game de doi che do choi
