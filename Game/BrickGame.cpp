@@ -15,7 +15,7 @@ message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
 message* resultGame_brick = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
 
 float xball = WINDOW_WIDTH / 2;
-float yball = WINDOW_HEIGHT - 100;
+float yball = WINDOW_HEIGHT - 250;
 message* lifenum = NULL;
 
 int xpaddle = WINDOW_WIDTH / 2 - 80;
@@ -84,6 +84,7 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	//}
 	paddle_brick = new PaddleObject("PNGFile/paddlebrick.png", xpaddle, ypaddle);
 	ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
+	ball_brick->setLife(3);
 	/*Truy cập file hình ở bên ngoài thư mục chứa project
 	2 tham số sau chỉ vị trí sẽ xuất hình trên cửa sổ*/
 	background_brick = textureManager::loadTexture("PNGFile/brick.jpg");
@@ -105,6 +106,8 @@ void BrickGame::update() {
 				table[i][j]->update();
 		}
 	}
+	int x = ball_brick->getScore_1();
+	scoreShow_brick->setText(x);
 	int new_life = ball_brick->getLife();
 	if (new_life == 0)
 	{
@@ -122,8 +125,8 @@ void BrickGame::render() {
 	lifepic.h = 40;
 	lifepic.x = WINDOW_WIDTH - lifepic.w;;
 	lifepic.y = 0;
-	scorepic.w = 80;
-    scorepic.h = 25;
+	scorepic.w = 100;
+    scorepic.h = 40;
 	scorepic.x = scorepic.y = 0;
 	SDL_RenderCopy(BrickGame::rendered, background_brick, NULL, NULL);
 	SDL_RenderCopy(BrickGame::rendered, life, NULL, &lifepic);
@@ -136,7 +139,7 @@ void BrickGame::render() {
 				table[i][j]->render();
 		}
 	}
-	scoreShow_brick->render(300, 50, 50, 25);
+	scoreShow_brick->render(100, 0, 50,40);
 	lifenum->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brick != NULL) {
 		resultGame_brick->render(300, 300, 50, 200);

@@ -11,10 +11,10 @@ int drawMenu(AbstractGame* gameWindow, const int FPS)
 	select_1.w = select_2.w = select_3.w = select_4.w = 200;
 	select_1.h = select_2.h = select_3.h = select_4.h = 50;
 	select_1.x = select_2.x = select_3.x = select_4.x = 300;
-	select_1.y = 300;
+	select_1.y = 350;
 	select_2.y = select_1.y + 2 * select_1.h;
 	select_3.y = select_2.y + 2 * select_1.h;
-	select_4.y = 200;
+	select_4.y = 250;
 	bool wasSelected = false;
 	select_0 = select_4;
 	int decision = 0;
@@ -105,7 +105,7 @@ int drawSubMenu(AbstractGame* gameWindow, const int FPS)
 	select_1.w = select_2.w = select_3.w =select_4.w= 200;
 	select_1.h = select_2.h = select_3.h = select_4.h = 50;
 	select_1.x = select_2.x = select_3.x = select_4.x = 300;
-	select_1.y = 200;
+	select_1.y = 250;
 	select_2.y = select_1.y + 2 * select_1.h;
 	select_4.y = select_2.y + 2 * select_1.h;
 	select_3.y = select_4.y + 2 * select_1.h;
@@ -198,7 +198,7 @@ int drawSubMenuNotSave(AbstractGame* gameWindow, const int FPS)
 	select_1.w = select_2.w = select_3.w = 200;
 	select_1.h = select_2.h = select_3.h = 50;
 	select_1.x = select_2.x = select_3.x = 300;
-	select_1.y = 200;
+	select_1.y = 250;
 	select_3.y = select_1.y + 2 * select_1.h;
 	select_2.y = select_3.y + 2 * select_1.h;
 	bool wasSelected = false;

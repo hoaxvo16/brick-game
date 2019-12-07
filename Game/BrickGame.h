@@ -4,14 +4,13 @@
 #include<fstream>
 #include "Brick.h"
 using namespace std;
-#define WINDOW_HEIGHT 600	//Chiều cao cửa sổ
+#define WINDOW_HEIGHT 650	//Chiều cao cửa sổ
 #define WINDOW_WIDTH 800	//Chiều rộng cửa sổ
 #define MAX_SCORE 10	//Điểm tối đa cho mỗi player
 class BrickGame : public AbstractGame
 {
 private:
 	vector<vector<Brick*>> table;
-
 public:
 	BrickGame();
 	~BrickGame();

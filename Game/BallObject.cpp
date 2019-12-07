@@ -40,7 +40,7 @@ void BallObject::update()
 	//}
 	if (outSide == 1) {
 		xpos = WINDOW_WIDTH / 2;	
-                ypos = WINDOW_HEIGHT - 100;
+        ypos = WINDOW_HEIGHT - 300;
 		life--;
 	}
 	destRect.x = xpos;
@@ -115,16 +115,23 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 
 void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 	if (velocityX == 0 && velocityY == 0) {	//Phat sinh luc bat dau game
-		velocityX -= 2.9;
-		velocityY -= 2.9;
+		velocityX = -1.5;
+		velocityY = 1.5;
 	}
 	xpos += velocityX;	//Cộng theo vận tốc
 	ypos += velocityY;
 	isTouch(p);	//Xét sự va chạm
 	Brick* target = isTouchWithTarget(table);
 	if (target != NULL) {
+		if (target->getHp() == 3)
+			score1+=5;
+		if (target->getHp() == 2)
+			score1 += 10;
 		if (target->getHp() == 1)
-			table[(size_t) target->getTableX()][(size_t) target->getTableY()] = NULL;
+		{
+			score1 += 15;
+			table[(size_t)target->getTableX()][(size_t)target->getTableY()] = NULL;
+		}
 		else target->updateHpImg();
 	}
 }
@@ -277,8 +284,8 @@ Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 
 int BallObject::isOut() {
 	if (ypos > WINDOW_HEIGHT + 5) {
-		velocityX = random();
-		velocityY = random();
+		velocityX = -1.5;
+		velocityY = 1.5;
 		return 1;
 	}
 	return 0;
@@ -291,7 +298,12 @@ float random()
 	while (s <= 20 && s >= -20)
 	{
 		s = rand() % 60 - 30;
-		ran = (float)s / 10;
+		ran = (float)s / 20;
 	}
 	return ran;
 }
+void BallObject::setLife(int x)
+{
+	life = x;
+}
+
