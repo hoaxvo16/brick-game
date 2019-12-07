@@ -21,3 +21,8 @@ void Rect::updateHpImg() {
 	}
 	brickTexture = textureManager::loadTexture(_sheet.c_str());
 }
+
+
+void Rect::render() {
+	SDL_RenderCopy(Game::rendered, brickTexture, NULL, &destRect);
+}
