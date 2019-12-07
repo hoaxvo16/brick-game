@@ -15,7 +15,7 @@ message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
 message* resultGame_brick = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
 
 float xball = WINDOW_WIDTH / 2;
-float yball = WINDOW_HEIGHT - 250;
+float yball = WINDOW_HEIGHT - 300;
 message* lifenum = NULL;
 
 int xpaddle = WINDOW_WIDTH / 2 - 80;
