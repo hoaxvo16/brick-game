@@ -145,6 +145,7 @@
     <ClCompile Include="message.cpp" />
     <ClCompile Include="PaddleObject.cpp" />
     <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="Reward.cpp" />
     <ClCompile Include="textureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +160,7 @@
     <ClInclude Include="message.h" />
     <ClInclude Include="PaddleObject.h" />
     <ClInclude Include="Rect.h" />
+    <ClInclude Include="Reward.h" />
     <ClInclude Include="textureManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

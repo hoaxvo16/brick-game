@@ -1,4 +1,5 @@
 ﻿#include "BallObject.h"
+#include "Reward.h"
 float random();
 float accelerate = 0.1;	//Gia tốc
 int speed = 0;	//Số lần tăng vận tốc theo gia tốc
@@ -123,6 +124,19 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 	isTouch(p);	//Xét sự va chạm
 	Brick* target = isTouchWithTarget(table);
 	if (target != NULL) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+		if (target->getHp() == 1) {
+			int targetX = target->getTableX();
+			int targetY = target->getTableY();
+			table[(size_t) targetX][(size_t) targetY] = NULL;
+			if (target->getLoot() < 4) {
+				table[(size_t) targetX][(size_t) targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot());
+				table[(size_t) targetX][(size_t) targetY]->render();
+			}
+=======
+=======
+>>>>>>> 3f1ae28c3bc43fd51aeb9baa62a351665b753b56
 		if (target->getHp() == 3)
 			score1+=5;
 		if (target->getHp() == 2)
@@ -131,6 +145,10 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 		{
 			score1 += 15;
 			table[(size_t)target->getTableX()][(size_t)target->getTableY()] = NULL;
+<<<<<<< HEAD
+>>>>>>> 3f1ae28c3bc43fd51aeb9baa62a351665b753b56
+=======
+>>>>>>> 3f1ae28c3bc43fd51aeb9baa62a351665b753b56
 		}
 		else target->updateHpImg();
 	}

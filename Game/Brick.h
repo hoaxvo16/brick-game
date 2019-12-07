@@ -12,17 +12,20 @@ protected:
 	int _width, _height;
 	string _type;
 	int _hp;
-	bool _loot;
+	int _loot;
 	string _sheet;
 	SDL_Texture* brickTexture;
+	SDL_Texture* rewardTexture;
 	SDL_Rect destRect;
 public:
-	Brick(string brickSheet, int x, int y, int width, int height, string type, int hp, bool loot);
+	Brick(string brickSheet, int x, int y, int width, int height, string type, int hp, int loot);
+	Brick(int x, int y, int width, int height, int loot);
 	~Brick();
 	virtual string getType() { return _type; }
 	virtual int getHp() { return _hp; }
+	virtual int getLoot() { return _loot; }
 	virtual void update();
-	virtual void render();
+	virtual void render() = 0;
 	virtual int getTableX() { return _tableX; }
 	virtual int getTableY() { return _tableY; }
 	virtual int getX() = 0;
