@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <time.h>
 #define BALL_RADIUS 20	//Size của quả banh
-#define INIT_SPEED_X 2.9	//Vận tốc x ban đầu
-#define INIT_SPEED_Y 1.9	//Vận tộc y ban đầu
+#define INIT_SPEED_X 0.1	//Vận tốc x ban đầu
+#define INIT_SPEED_Y 0.01	//Vận tộc y ban đầu
 #define PI 3.14159
 class BallObject
 {
@@ -19,7 +19,7 @@ private:
 	float velocityX, velocityY;	//Vận tốc x, y của quả banh
 	int score1 = 0;	//Điểm của player 1
 	int score2 = 0;	//Điểm của player 2
-	int life = 3;
+	int life;
 public:
 	BallObject(const char* ballsheet, int x, int y);
 	~BallObject();
@@ -31,13 +31,13 @@ public:
 	bool isTouch(PaddleObject *paddle1, PaddleObject *paddle2);
 	bool isTouch(PaddleObject* paddle);
 	Brick* isTouchWithTarget(vector<vector<Brick*>> table);
-
 	float getV();
 	void setAngle(float deg);
 	void strikeAngle(PaddleObject* paddle);
 	int rectCollided(float cx, float cy, float radius, int rx, int ry, int rw, int rh);
 	//Xét sự va chạm
 	int isOut();
+	void setLife(int x);
 	//Banh ra ngoài chưa?
 	int getScore_1()
 	{
