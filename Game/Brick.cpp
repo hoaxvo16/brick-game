@@ -4,7 +4,7 @@ Brick::Brick(string brickSheet, int x, int y, int width, int height, string type
 	brickTexture = textureManager::loadTexture(brickSheet.c_str());
 	_sheet = brickSheet;
 	_x = x * 80;
-	_y = y * 60 + 1;
+	_y = (y + 1) * 60;
 	_tableX = y; //row is y
 	_tableY = x; //column is x
 	_width = width;
