@@ -125,6 +125,7 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 	Brick* target = isTouchWithTarget(table);
 	if (target != NULL) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (target->getHp() == 1) {
 			int targetX = target->getTableX();
 			int targetY = target->getTableY();
@@ -134,6 +135,8 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 				table[(size_t) targetX][(size_t) targetY]->render();
 			}
 =======
+=======
+>>>>>>> 3f1ae28c3bc43fd51aeb9baa62a351665b753b56
 		if (target->getHp() == 3)
 			score1+=5;
 		if (target->getHp() == 2)
@@ -142,6 +145,9 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 		{
 			score1 += 15;
 			table[(size_t)target->getTableX()][(size_t)target->getTableY()] = NULL;
+<<<<<<< HEAD
+>>>>>>> 3f1ae28c3bc43fd51aeb9baa62a351665b753b56
+=======
 >>>>>>> 3f1ae28c3bc43fd51aeb9baa62a351665b753b56
 		}
 		else target->updateHpImg();
