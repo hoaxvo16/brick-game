@@ -43,6 +43,50 @@ void BrickGame::initTable() {
 		}
 	}
 }
+void BrickGame::initSave(){
+	int newlife;
+	int newscore;
+	char c;
+	int x, y, hp, loot;
+	ifstream filein;
+	filein.open("PNGFile/savegame.txt");
+	filein >> newlife >> newscore >> xball >> yball >> xpaddle >> ypaddle;
+	table.resize(5);
+	for (size_t i = 0; i < 5; i++)
+		table[i].resize(10);
+	for (size_t i = 0; i < table.size(); i++) {
+		for (size_t j = 0; j < table[i].size(); j++) {
+			filein >> x;
+			filein >> c >> y >> c >> hp >> c >> loot;
+			cout << x << "," << y << "," << hp << "," << loot << endl;
+			if (hp)
+			{
+				x = x / 80;
+				y = y / 60 - 1;
+				string path;
+				if(hp==3)
+				    path = "PNGFile/rect3.png";
+				else if(hp==2)
+					path= "PNGFile/rect2.png";
+				else
+					path = "PNGFile/rect1.png";
+				Brick* brick = new Rect(path, x, y, 80, 60, "rect", hp, loot);
+				table[i][j] = brick;
+			}
+		}
+	}
+	paddle_brick = new PaddleObject("PNGFile/paddlebrick.png", xpaddle, ypaddle);
+	ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
+	ball_brick->setLife(newlife);
+	ball_brick->setScore(newscore);
+	background_brick = textureManager::loadTexture("PNGFile/brick.jpg");
+	life = textureManager::loadTexture("PNGFile/life.png");
+	scoretext = textureManager::loadTexture("PNGFile/score.png");//Truy cập vào file hình chứa background
+	scoreShow_brick = new message();
+	lifenum = new message();
+	resultGame_brick = NULL;
+	filein.close();
+}
 void BrickGame::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen,int savegame) {
 	int flag = 0;	//flag = 0 báo hiệu cho việc chúng ta sẽ sử dụng cửa sổ chứ không phải fullscreen
 	if (fullscreen) {
@@ -74,27 +118,25 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	} else {
 		isRunning = false; //Nếu tất cả mọi thử ở trên thất bại thì thôi nghỉ game
 	}
-	//if (savegame == 1)
-	//{
-	//	ifstream save;
-	//	save.open("savegame.txt");
-	//	save >> xball;
-	//	save >> yball;
-	//	save >> xpaddle;
-	//	save >> ypaddle;
-	//}
-	paddle_brick = new PaddleObject("PNGFile/paddlebrick.png", xpaddle, ypaddle);
-	ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
-	ball_brick->setLife(3);
-	/*Truy cập file hình ở bên ngoài thư mục chứa project
-	2 tham số sau chỉ vị trí sẽ xuất hình trên cửa sổ*/
-	background_brick = textureManager::loadTexture("PNGFile/brick.jpg");
-	life = textureManager::loadTexture("PNGFile/life.png");	
-	scoretext = textureManager::loadTexture("PNGFile/score.png");//Truy cập vào file hình chứa background
-	initTable();
-	scoreShow_brick = new message();
-	lifenum = new message();
-	resultGame_brick = NULL;
+	if (savegame == 1)
+	{
+		initSave();
+	}
+	else
+	{
+		paddle_brick = new PaddleObject("PNGFile/paddlebrick.png", xpaddle, ypaddle);
+		ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
+		ball_brick->setLife(3);
+		/*Truy cập file hình ở bên ngoài thư mục chứa project
+		2 tham số sau chỉ vị trí sẽ xuất hình trên cửa sổ*/
+		background_brick = textureManager::loadTexture("PNGFile/brick.jpg");
+		life = textureManager::loadTexture("PNGFile/life.png");
+		scoretext = textureManager::loadTexture("PNGFile/score.png");//Truy cập vào file hình chứa background
+		initTable();
+		scoreShow_brick = new message();
+		lifenum = new message();
+		resultGame_brick = NULL;
+	}
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
 }
 void BrickGame::update() {
@@ -112,6 +154,7 @@ void BrickGame::update() {
 	int new_life = ball_brick->getLife();
 	if (new_life == 0)
 	{
+		cleanSave();
 		board.initScore();
 		board.add(ball_brick->getScore_1());
 		resultGame_brick = new message();
@@ -164,12 +207,42 @@ void BrickGame::handleEvents() {
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
 		case SDLK_ESCAPE:
+			saveGame();
 			isRunning = false;
 			break;
 		default:
 			break;
 		}
 	}
+}
+void BrickGame::saveGame()
+{
+	ofstream fileout;
+	fileout.open("PNGFile/savegame.txt");
+	fileout << ball_brick->getLife() << endl;
+	fileout << ball_brick->getScore_1() << endl;
+	fileout << ball_brick->getX() << endl;
+	fileout << ball_brick->getY() << endl;
+	fileout << paddle_brick->getPaddleXpos()<< endl;
+	fileout << paddle_brick->getPaddleYpos() << endl;
+	for (size_t i = 0; i < table.size(); i++) {
+		for (size_t j = 0; j < table[i].size(); j++) {
+			Brick* temp = table[i][j];
+			if (temp==NULL)
+				fileout << 0 << "," << 0 << "," << 0 << ","<<0<<"  ";
+			else
+				fileout << temp->getX() << "," << temp->getY() << "," << temp->getHp() << ","<<temp->getLoot()<<"  ";
+		}
+		fileout << endl;
+	}
+	fileout.close();
+}
+void BrickGame::cleanSave()
+{
+	ofstream fileout;
+	fileout.open("PNGFile/savegame.txt",ios::trunc);
+	fileout << "";
+	fileout.close();
 }
 void BrickGame::clean() {
 	SDL_DestroyWindow(window);

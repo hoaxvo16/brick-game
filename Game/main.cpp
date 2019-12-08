@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 				if (savegame == -1)
 					goto loop;
 				cout << savegame << endl;
-				if (!isSave && savegame == 2)
+				if (!isSave && savegame == 2||isSave&&savegame==3)
 				{
 					AbstractGame* board = new AchievementBoard();
 					board->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,0);

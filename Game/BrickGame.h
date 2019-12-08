@@ -26,5 +26,8 @@ public:
 	void render();	//Cập nhật ở trên xong rồi thì vẽ ra
 	void handleEvents();	//Giải quyết sự kiện bên ngoài (VD: user đập bàn phím)
 	void clean();	//Xóa hết, xóa sạch, xóa tất
+	void saveGame();
+	void initSave();
+	void cleanSave();
 };
 

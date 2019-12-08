@@ -298,7 +298,7 @@ bool isSaveGame()
 	filegame.open("PNGFile/savegame.txt");
 	getline(filegame, s);
 	filegame.close();
-	if (s == "")
+	if (s =="")
 		return false;
 	return true;
 }

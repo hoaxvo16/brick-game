@@ -55,5 +55,17 @@ public:
 	{
 		return life;
 	}
+	int getX()
+	{
+		return xpos;
+	}
+	int getY()
+	{
+		return ypos;
+	}
+	void setScore(int x)
+	{
+		score1 = x;
+	}
 };
 
