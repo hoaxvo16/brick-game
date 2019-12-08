@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "GameBOT.h"
 #include "AbstractGame.h"
+#include"AchievementBoard.h"
 #include "Menu.h"
 #include"BrickGame.h"
 using namespace std;
@@ -66,7 +67,7 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 			while (savegame != 2)
 			{
 				system("cls");
-				bool isSave = isSaveGame();
+				loop1:bool isSave = isSaveGame();
 				AbstractGame* submenu = new Game();
 				submenu->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,0);
 				if (isSave)
@@ -79,9 +80,24 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 					savegame = drawSubMenuNotSave(submenu, FPS);
 					submenu->clean();
 				}
-				if (savegame == 3&&isSave||savegame==2&&!isSave)
+				if (savegame == -1)
 					goto loop;
-				if (savegame == 0 || savegame == 1||savegame==2)
+				cout << savegame << endl;
+				if (!isSave && savegame == 2)
+				{
+					AbstractGame* board = new AchievementBoard();
+					board->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,0);
+					while (board->running())
+					{
+						board->handleEvents();
+						board->render();
+					}
+					board->clean();
+					goto loop1;
+				}
+				if (savegame == 4&&isSave||savegame==3&&!isSave)
+					goto loop;
+				if (savegame == 0 || savegame == 1||savegame==2&&isSave)
 				{
 					AbstractGame* game = new BrickGame();//Khoi tao game de choi
 			// Chi can thay GameBOT <-> Game de doi che do choi

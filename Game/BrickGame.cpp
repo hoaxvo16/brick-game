@@ -112,6 +112,8 @@ void BrickGame::update() {
 	int new_life = ball_brick->getLife();
 	if (new_life == 0)
 	{
+		board.initScore();
+		board.add(ball_brick->getScore_1());
 		resultGame_brick = new message();
 		resultGame_brick->setText("You Lose");
 		isRunning = false;

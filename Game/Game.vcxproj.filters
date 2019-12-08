@@ -57,6 +57,9 @@
     <ClCompile Include="Reward.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AchievementBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Reward.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AchievementBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

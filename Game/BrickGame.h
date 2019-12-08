@@ -3,6 +3,7 @@
 #include <vector>
 #include<fstream>
 #include "Brick.h"
+#include"AchievementBoard.h"
 using namespace std;
 #define WINDOW_HEIGHT 700	//Chiều cao cửa sổ
 #define WINDOW_WIDTH 800	//Chiều rộng cửa sổ
@@ -11,6 +12,7 @@ class BrickGame : public AbstractGame
 {
 private:
 	vector<vector<Brick*>> table;
+	AchievementBoard board;
 public:
 	BrickGame();
 	~BrickGame();
