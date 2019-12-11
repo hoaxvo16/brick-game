@@ -123,20 +123,24 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 	isTouch(p);	//Xét sự va chạm
 	Brick* target = isTouchWithTarget(table);
 	if (target != NULL) {
-		if (target->getHp() == 1) {
+		if (target->getType() == "reward" && !target->isCollected()) {
+			target->setCollected();
+			cout << "HERE";
+		}
+		else if (target->getHp() == 1) {
 			int targetX = target->getTableX();
 			int targetY = target->getTableY();
 			table[(size_t)targetX][(size_t)targetY] = NULL;
 			if (target->getLoot() < 4) {
-				table[(size_t)targetX][(size_t)targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot());
+				table[(size_t)targetX][(size_t)targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot()); 
 				table[(size_t)targetX][(size_t)targetY]->render();
 			}
 		}
-		if (target->getHp() == 3)
+		else if (target->getHp() == 3)
 			score1 += 5;
-		if (target->getHp() == 2)
+		else if (target->getHp() == 2)
 			score1 += 10;
-		 target->updateHpImg();
+		target->updateHpImg();
 	}
 }
 int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, int rw, int rh) {
@@ -247,25 +251,27 @@ Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			Brick* target = table[i][j];
-			if (target == NULL) continue;
+			if (target == NULL || (target->getType() == "reward" && target->isCollected())) continue;
+
 			int edge = rectCollided(xpos + (BALL_RADIUS + 0.0) / 2, ypos + (BALL_RADIUS + 0.0) / 2, (BALL_RADIUS / 2) + 0.0, target->getX(), target->getY(), target->getW(), target->getH());
-			if (edge == 0) {
-				if (velocityX < 0) return NULL;
-				velocityX = -velocityX;
+			if (0 <= edge && edge < 4) {
+				if ((target->getType() == "reward" && !target->isCollected()))
+					return target;
+				else if (edge == 0) {
+					if (velocityX < 0) return NULL;
+					velocityX = -velocityX;
+				} else if (edge == 1) {
+					if (velocityX > 0) return NULL;
+					velocityX = -velocityX;
+				} else if (edge == 2) {
+					if (velocityY < 0) return NULL;
+					velocityY = -velocityY;
+				} else if (edge == 3) {
+					if (velocityY > 0) return NULL;
+					velocityY = -velocityY;
+				}
 				return target;
-			} else if (edge == 1) {
-				if (velocityX > 0) return NULL;
-				velocityX = -velocityX;
-				return target;
-			} else if (edge == 2) {
-				if (velocityY < 0) return NULL;
-				velocityY = -velocityY;
-				return target;
-			} else if (edge == 3) {
-				if (velocityY > 0) return NULL;
-				velocityY = -velocityY;
-				return target;
-			}
+			}	
 		}
 	}
 	return NULL;

@@ -8,9 +8,9 @@ int Reward::getW() { return _width; }
 
 int Reward::getH() { return _height; }
 
-void Reward::update() {
+void Reward::updateReward() {
 	destRect.x = _x;
-	destRect.y = _y;
+	destRect.y += 2;
 	destRect.w = _width;
 	destRect.h = _height;
 }
