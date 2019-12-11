@@ -4,6 +4,7 @@
 #include "textureManager.h"
 #include <iostream>
 #include "Brick.h"
+#include "BrickGame.h"
 using namespace std;
 class Reward : public Brick {
 private:
@@ -16,5 +17,7 @@ public:
 	void updateReward();
 	void render();
 	void updateHpImg() {}
+	//void isTouchWithPaddle(PaddleObject paddle);
+	bool isOut();
 };
 

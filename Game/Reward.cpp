@@ -19,3 +19,13 @@ void Reward::render() {
 	SDL_RenderCopy(Game::rendered, rewardTexture, NULL, &destRect);
 }
 
+//void Reward::isTouchWithPaddle(PaddleObject paddle) {
+//	if (destRect.y + _height >= paddle.getPaddleYpos() && paddle.getPaddleXpos() <= _x && _x + _width <= paddle.getPaddleXpos() + PADDLE_HEIGHT) {}
+//}
+
+bool Reward::isOut() {
+	if (destRect.y > WINDOW_HEIGHT)
+		return true;
+	return false;
+}
+
