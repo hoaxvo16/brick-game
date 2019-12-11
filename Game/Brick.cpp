@@ -32,6 +32,7 @@ Brick::Brick(int x, int y, int width, int height, int loot) {
 	_y = (y + 1) * 60 + 5;
 	_width = width;
 	_height = height;
+	_type = "reward";
 	_loot = loot;
 }
 
@@ -41,3 +42,5 @@ void Brick::update() {
 	destRect.w = _width;
 	destRect.h = _height;
 }
+
+void Brick::updateReward() {}

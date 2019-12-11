@@ -11,6 +11,7 @@ protected:
 	int _tableX, _tableY;
 	int _width, _height;
 	string _type;
+	bool _collected = false;
 	int _hp;
 	int _loot;
 	string _sheet;
@@ -24,7 +25,10 @@ public:
 	virtual string getType() { return _type; }
 	virtual int getHp() { return _hp; }
 	virtual int getLoot() { return _loot; }
+	virtual bool isCollected() { return _collected; }
+	virtual void setCollected() { _collected = true; }
 	virtual void update();
+	virtual void updateReward();
 	virtual void render() = 0;
 	virtual int getTableX() { return _tableX; }
 	virtual int getTableY() { return _tableY; }

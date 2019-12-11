@@ -70,7 +70,7 @@ void BrickGame::initSave(){
 					path= "PNGFile/rect2.png";
 				else
 					path = "PNGFile/rect1.png";
-				Brick* brick = new Rect(path, x, y, 80, 60, "rect", hp, loot);
+				Brick* brick = new Rect(path, x, y, 80, 60, "target", hp, loot);
 				table[i][j] = brick;
 			}
 		}
@@ -142,13 +142,17 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 void BrickGame::update() {
 	paddle_brick->updateforbrick();	//Khác biệt duy nhất với Game.cpp :)))
 	ball_brick->move(paddle_brick, table);
-	ball_brick->update();
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
-			if (table[i][j] != NULL) 
-				table[i][j]->update();
+			if (table[i][j] != NULL) {
+				if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == true)
+					table[i][j]->updateReward();
+				else table[i][j]->update();
+			}
 		}
 	}
+	ball_brick->update();
+
 	int x = ball_brick->getScore_1();
 	scoreShow_brick->setText(x);
 	int new_life = ball_brick->getLife();
@@ -158,7 +162,7 @@ void BrickGame::update() {
 		board.initScore();
 		board.add(ball_brick->getScore_1());
 		resultGame_brick = new message();
-		resultGame_brick->setText("You Lose");
+		resultGame_brick->setText("You Lost");
 		isRunning = false;
 	}
 	lifenum->setText(new_life);
@@ -178,13 +182,15 @@ void BrickGame::render() {
 	SDL_RenderCopy(BrickGame::rendered, life, NULL, &lifepic);
 	SDL_RenderCopy(BrickGame::rendered, scoretext, NULL, &scorepic);
 	paddle_brick->render();
-	ball_brick->render();
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			if (table[i][j] != NULL)
 				table[i][j]->render();
 		}
 	}
+	ball_brick->render();
+
+
 	scoreShow_brick->render(100, 0, 50,40);
 	lifenum->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brick != NULL) {

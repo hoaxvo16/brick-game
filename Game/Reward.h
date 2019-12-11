@@ -13,7 +13,7 @@ public:
 	int getY();
 	int getW();
 	int getH();
-	void update();
+	void updateReward();
 	void render();
 	void updateHpImg() {}
 };
