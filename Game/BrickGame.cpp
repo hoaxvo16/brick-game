@@ -145,8 +145,11 @@ void BrickGame::update() {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			if (table[i][j] != NULL) {
-				if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == true)
+				if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == true) {
 					table[i][j]->updateReward();
+					if (table[i][j]->isOut())
+						table[i][j] = NULL;
+				}
 				else table[i][j]->update();
 			}
 		}

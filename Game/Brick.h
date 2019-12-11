@@ -37,5 +37,6 @@ public:
 	virtual int getW() = 0;
 	virtual int getH() = 0;
 	virtual void updateHpImg() = 0;
+	virtual bool isOut() { return true; }
 };
 
