@@ -16,7 +16,7 @@ void message::setText(const std::string str)
 SDL_Texture* message::showText()
 {
 	
-	TTF_Font* Sans = TTF_OpenFont("Fonts/Sans.ttf", 32);	//Lấy font có sẵn trong mục project và set cỡ chữ
+	TTF_Font* Sans = TTF_OpenFont("Fonts/goodtimes.ttf", 32);	//Lấy font có sẵn trong mục project và set cỡ chữ
 	if (Sans == NULL)
 	{
 		std::cout << TTF_GetError() << std::endl;	//Không lấy được thì in ra lỗi

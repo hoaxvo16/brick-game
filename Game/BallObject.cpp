@@ -1,8 +1,7 @@
 ﻿#include "BallObject.h"
 #include "Reward.h"
 float ranDom();
-float accelerate = 0.1;	//Gia tốc
-int speed = 0;	//Số lần tăng vận tốc theo gia tốc
+float accelerate = 0.1;	//Gia tốc	//Số lần tăng vận tốc theo gia tốc
 BallObject::BallObject(const char* ballsheet, int x, int y)
 {
 	ballTexture = textureManager::loadTexture(ballsheet);
@@ -42,6 +41,7 @@ void BallObject::update()
 	if (outSide == 1) {
 		xpos = WINDOW_WIDTH / 2;	
         ypos = WINDOW_HEIGHT - 300;
+		speed = 0;
 		life--;
 	}
 	destRect.x = xpos;
@@ -221,7 +221,6 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 		velocityX = -velocityX;
 		return true;
 	}
-
 	int paddleXpos = paddle->getPaddleXpos();
 	int paddleYpos = paddle->getPaddleYpos();
 	int edgeRes = rectCollided(xpos, ypos, BALL_RADIUS + 0.0, paddleXpos, paddleYpos, PADDLE_HEIGHT, PADDLE_WIDTH);

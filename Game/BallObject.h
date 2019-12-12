@@ -12,7 +12,7 @@
 class BallObject
 {
 private:
-
+	int speed;
 	float xpos, ypos;	//Tọa độ đỉnh góc trái của hình chữ nhật chứa hình tròn
 	SDL_Texture* ballTexture;	//Hình vẽ của quả banh
 	SDL_Rect srcRect,destRect;	//Hình chữ nhật để đọc và vẽ quả banh lên cửa sổ
