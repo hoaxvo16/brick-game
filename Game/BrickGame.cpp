@@ -173,7 +173,7 @@ void BrickGame::update() {
 					table[i][j]->updateReward();
 					int loot = table[i][j]->isTouchWithPaddle(paddle_brick);
 					if (loot != 0) {
-						skillExe = new Skills(table, loot, j);
+						skillExe = new Skills(table, loot, j,ball_brick);
 						table[i][j] = NULL;
 					} else if (table[i][j]->isOut())
 						table[i][j] = NULL;

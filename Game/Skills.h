@@ -17,8 +17,8 @@ private:
 	int _x, _y, _w, _h;
 	int _pos;
 public:
-	Skills(vector<vector<Brick*>>& table, int loot, int pos);
-	void execLaser(vector<vector<Brick*>>& table);
+	Skills(vector<vector<Brick*>>& table, int loot, int pos,BallObject*& ball);
+	void execLaser(vector<vector<Brick*>>& table,BallObject*& ball);
 	void setTexture(string sheet);
 	void render();
 	void update();
