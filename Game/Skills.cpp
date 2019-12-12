@@ -33,9 +33,9 @@ void Skills::update() {
 }
 void Skills::execLaser(vector<vector<Brick*>>& table,BallObject*& ball) {
 	setTexture("PNGFile/laser_x.png");
-	_x = _pos * 80;
+	_x = _pos * 80 + 10;
 	_y = 0;
-	_w = 80;
+	_w = 60;
 	_h = 688;
 
 	for (size_t i = 0; i < 5; i++) {
