@@ -3,10 +3,11 @@
 #include <SDL_image.h>
 #include "textureManager.h"
 #include "Brick.h"
-#include "BallObject.h"
+#include"BallObject.h"
 #include <vector>
 #include <iostream>
 using namespace std;
+class BallObject;
 class Skills {
 private:
 	int _start;
@@ -23,6 +24,6 @@ public:
 	void update();
 	int getStart() { return _start; }
 	int getDuration() { return _duration; }
-	void execHp();
+	void execHp(BallObject*& ball);
 };
 

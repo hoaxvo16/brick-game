@@ -42,6 +42,7 @@ void Skills::execLaser(vector<vector<Brick*>>& table) {
 	}
 }
 
-void Skills::execHp() {
-	
+void Skills::execHp(BallObject*& ball) {
+	int x = ball->getLife() + 1;
+	ball->setLife(x);
 }
