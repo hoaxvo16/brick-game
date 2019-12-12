@@ -4,6 +4,7 @@
 #include <time.h>
 #include "textureManager.h"
 #include <iostream>
+#include "PaddleObject.h"
 using namespace std;
 class Brick {
 protected:
@@ -38,5 +39,6 @@ public:
 	virtual int getH() = 0;
 	virtual void updateHpImg() = 0;
 	virtual bool isOut() { return true; }
+	virtual int isTouchWithPaddle(PaddleObject* paddle);
 };
 

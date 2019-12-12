@@ -3,6 +3,8 @@
 #include <vector>
 #include<fstream>
 #include "Brick.h"
+#include "Reward.h"
+#include "Skills.h"
 #include"AchievementBoard.h"
 using namespace std;
 #define WINDOW_HEIGHT 700	//Chiều cao cửa sổ
@@ -29,5 +31,6 @@ public:
 	void saveGame();
 	void initSave();
 	void cleanSave();
+	void skill(int loot);
 };
 

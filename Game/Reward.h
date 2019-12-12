@@ -17,7 +17,7 @@ public:
 	void updateReward();
 	void render();
 	void updateHpImg() {}
-	//void isTouchWithPaddle(PaddleObject paddle);
+	int isTouchWithPaddle(PaddleObject* paddle);
 	bool isOut();
 };
 

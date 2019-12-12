@@ -8,6 +8,7 @@ BallObject* ball_brick = NULL;
 SDL_Texture* background_brick = NULL;
 SDL_Texture* life = NULL;
 SDL_Texture* scoretext = NULL;
+Skills* skillExe = NULL;
 //SDL_Renderer* Game::rendered = NULL;
 //Biến rendered được dùng để render(lưu lại những hình vẽ và vị trí của mỗi object, chờ cơ hội để bộc phát)
 message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
@@ -20,6 +21,7 @@ message* lifenum = NULL;
 
 int xpaddle = WINDOW_WIDTH / 2 - 80;
 int ypaddle = WINDOW_HEIGHT - 10;
+
 BrickGame::BrickGame() {
 
 }
@@ -139,15 +141,30 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	}
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
 }
+
 void BrickGame::update() {
 	paddle_brick->updateforbrick();	//Khác biệt duy nhất với Game.cpp :)))
 	ball_brick->move(paddle_brick, table);
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			if (table[i][j] != NULL) {
-				if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == true) {
+				Brick* target = table[i][j];
+				if (target->getHp() == 1) {
+					int targetX = target->getTableX();
+					int targetY = target->getTableY();
+					table[(size_t) targetX][(size_t) targetY] = NULL;
+					if (target->getLoot() < 4) {
+						table[(size_t) targetX][(size_t) targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot());
+						table[(size_t)targetX][(size_t)targetY]->render();
+					}
+				}
+				else if (target->getType() == "reward" && target->isCollected() == true) {
 					table[i][j]->updateReward();
-					if (table[i][j]->isOut())
+					int loot = table[i][j]->isTouchWithPaddle(paddle_brick);
+					if (loot != 0) {
+						skillExe = new Skills(table, loot, j);
+						table[i][j] = NULL;
+					} else if (table[i][j]->isOut())
 						table[i][j] = NULL;
 				}
 				else table[i][j]->update();
@@ -155,6 +172,11 @@ void BrickGame::update() {
 		}
 	}
 	ball_brick->update();
+	if (skillExe != NULL) {
+		skillExe->update();
+		if (SDL_GetTicks() - skillExe->getStart() > skillExe->getDuration())
+			skillExe = NULL;
+	}
 
 	int x = ball_brick->getScore_1();
 	scoreShow_brick->setText(x);
@@ -192,8 +214,7 @@ void BrickGame::render() {
 		}
 	}
 	ball_brick->render();
-
-
+	if (skillExe != NULL) skillExe->render();
 	scoreShow_brick->render(100, 0, 50,40);
 	lifenum->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brick != NULL) {

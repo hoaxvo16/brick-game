@@ -44,3 +44,5 @@ void Brick::update() {
 }
 
 void Brick::updateReward() {}
+
+int Brick::isTouchWithPaddle(PaddleObject* paddle) { return 0; }
