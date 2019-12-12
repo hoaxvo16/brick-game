@@ -155,8 +155,8 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 		scoreShow_brick = new message();
 		lifenum = new message();
 		resultGame_brick = NULL;
-		ball_brick->setVx(-1.5);
-		ball_brick->setVy(1.5);
+		ball_brick->setVx(-1.8);
+		ball_brick->setVy(1.8);
 	}
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
 }
@@ -271,9 +271,7 @@ void BrickGame::saveGame()
 			else
 			{
 				if (temp->getType() == "reward")
-				{
 					 fileout << temp->getDestx() << "," << temp->getDesty() << "," << temp->getHp() << "," << temp->getLoot() << "," << temp->isCollected() << "," << temp->getType() << " ";
-				}
 				else
 					fileout << temp->getX() << "," << temp->getY() << "," << temp->getHp() << "," << temp->getLoot() << "," << temp->isCollected() << "," << temp->getType() << " ";
 			}
@@ -293,7 +291,7 @@ bool BrickGame::isWin()
 {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
-			if (table[i][j] != NULL)
+			if (table[i][j] != NULL&&table[i][j]->getType()=="rect")
 				return false;
 		}
 	}

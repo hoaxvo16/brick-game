@@ -114,10 +114,6 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 	return false;
 }
 void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
-	//if (velocityX == 0 && velocityY == 0) {	//Phat sinh luc bat dau game
-	//	velocityX = -1.5;
-	//	velocityY = 1.5;
-	//}
 	xpos += velocityX;	//Cộng theo vận tốc
 	ypos += velocityY;
 	isTouch(p);	//Xét sự va chạm
@@ -290,8 +286,8 @@ Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 
 int BallObject::isOut() {
 	if (ypos > WINDOW_HEIGHT + 5) {
-		velocityX = -1.5;
-		velocityY = 1.5;
+		velocityX = -1.8;
+		velocityY = 1.8;
 		return 1;
 	}
 	return 0;
