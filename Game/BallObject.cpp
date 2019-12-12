@@ -121,25 +121,13 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 	if (target != NULL) {
 		if (target->getType() == "reward" && !target->isCollected())
 			target->setCollected();
-<<<<<<< HEAD
 		else if (target->getHp() == 3)
 			score1 += 5;
 		else if (target->getHp() == 2)
 			score1 += 10;
-=======
-			cout << "HERE";
-		}
-		else if (target->getHp() == 1) {
+		else if (target->getHp() == 1)
 			score1 += 10;
-			int targetX = target->getTableX();
-			int targetY = target->getTableY();
-			table[(size_t)targetX][(size_t)targetY] = NULL;
-			if (target->getLoot() < 4) {
-				table[(size_t)targetX][(size_t)targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot(),0); 
-				table[(size_t)targetX][(size_t)targetY]->render();
-			}
-		}
->>>>>>> 580d859167551ca0be9ae35fba794acf2148883e
+
 		target->updateHpImg();
 	}
 }

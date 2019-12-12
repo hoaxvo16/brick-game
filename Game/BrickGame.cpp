@@ -169,21 +169,17 @@ void BrickGame::update() {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			if (table[i][j] != NULL) {
-<<<<<<< HEAD
 				Brick* target = table[i][j];
 				if (target->getHp() == 1) {
 					int targetX = target->getTableX();
 					int targetY = target->getTableY();
 					table[(size_t) targetX][(size_t) targetY] = NULL;
 					if (target->getLoot() < 4) {
-						table[(size_t) targetX][(size_t) targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot());
+						table[(size_t) targetX][(size_t) targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot(), 0);
 						table[(size_t)targetX][(size_t)targetY]->render();
 					}
 				}
-				else if (target->getType() == "reward" && target->isCollected() == true) {
-=======
-				if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == 1) {
->>>>>>> 580d859167551ca0be9ae35fba794acf2148883e
+				else if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == 1) {
 					table[i][j]->updateReward();
 					int loot = table[i][j]->isTouchWithPaddle(paddle_brick);
 					if (loot != 0) {
@@ -197,15 +193,12 @@ void BrickGame::update() {
 		}
 	}
 	ball_brick->update();
-<<<<<<< HEAD
 	if (skillExe != NULL) {
 		skillExe->update();
 		if (SDL_GetTicks() - skillExe->getStart() > skillExe->getDuration())
 			skillExe = NULL;
 	}
 
-=======
->>>>>>> 580d859167551ca0be9ae35fba794acf2148883e
 	int x = ball_brick->getScore_1();
 	scoreShow_brick->setText(x);
 	int new_life = ball_brick->getLife();
@@ -251,10 +244,7 @@ void BrickGame::render() {
 		}
 	}
 	ball_brick->render();
-<<<<<<< HEAD
 	if (skillExe != NULL) skillExe->render();
-=======
->>>>>>> 580d859167551ca0be9ae35fba794acf2148883e
 	scoreShow_brick->render(100, 0, 50,40);
 	lifenum->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brick != NULL) {

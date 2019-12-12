@@ -9,7 +9,7 @@ using namespace std;
 class Reward : public Brick {
 private:
 public:
-	Reward(int x, int y, int width, int height, int loot,int collected) : Brick(x, y, width, height, loot,collected) {}
+	Reward(int x, int y, int width, int height, int loot,int collected) : Brick(x, y, width, height, loot, collected) {}
 	int getX();
 	int getY();
 	int getW();
