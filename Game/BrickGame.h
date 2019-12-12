@@ -29,5 +29,6 @@ public:
 	void saveGame();
 	void initSave();
 	void cleanSave();
+	bool isWin();
 };
 

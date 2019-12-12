@@ -1,4 +1,5 @@
 ﻿#include "Rect.h"
+#include"Reward.h"
 #include "textureManager.h"
 #include "PaddleObject.h"
 #include "BallObject.h"
@@ -36,7 +37,6 @@ void BrickGame::initTable() {
 		size_t ranY = rand() % 5;
 		int loot = rand() % 10 + 1;
 		Brick* brick = new Rect("PNGFile/rect3.png", ranX, ranY, 80, 60, "rect", 3, loot);
-
 		if (table[ranY][ranX] == NULL) {
 			table[ranY][ranX] = brick;
 			i++;
@@ -46,20 +46,37 @@ void BrickGame::initTable() {
 void BrickGame::initSave(){
 	int newlife;
 	int newscore;
+	int vx, vy;
 	char c;
-	int x, y, hp, loot;
+	int x, y, hp, loot,collected;
+	string type;
 	ifstream filein;
 	filein.open("PNGFile/savegame.txt");
-	filein >> newlife >> newscore >> xball >> yball >> xpaddle >> ypaddle;
+	filein >> newlife >> newscore >> xball >> yball>>vx>>vy >> xpaddle >> ypaddle;
 	table.resize(5);
 	for (size_t i = 0; i < 5; i++)
 		table[i].resize(10);
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
-			filein >> x;
-			filein >> c >> y >> c >> hp >> c >> loot;
-			cout << x << "," << y << "," << hp << "," << loot << endl;
-			if (hp)
+			filein >> x >> c >> y >> c >> hp >> c >> loot >> c >> collected >> c;
+			getline(filein, type,' ');
+			if (type == "reward")
+			{
+				if (collected == 1)
+				{
+					Brick* brick = new Reward(x, y, 50, 50, loot,collected);
+					brick->setCollected();
+					table[i][j] = brick;
+				}
+				else
+				{
+					x = x / 80;
+					y = y / 60 - 1;
+					Brick* brick = new Reward(x, y, 50, 50, loot,collected);
+					table[i][j] = brick;
+				}
+			}
+			else if (type=="rect")
 			{
 				x = x / 80;
 				y = y / 60 - 1;
@@ -70,11 +87,12 @@ void BrickGame::initSave(){
 					path= "PNGFile/rect2.png";
 				else
 					path = "PNGFile/rect1.png";
-				Brick* brick = new Rect(path, x, y, 80, 60, "target", hp, loot);
+				Brick* brick = new Rect(path, x, y, 80, 60, "rect", hp, loot);
 				table[i][j] = brick;
 			}
 		}
 	}
+	filein.close();
 	paddle_brick = new PaddleObject("PNGFile/paddlebrick.png", xpaddle, ypaddle);
 	ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
 	ball_brick->setLife(newlife);
@@ -85,7 +103,8 @@ void BrickGame::initSave(){
 	scoreShow_brick = new message();
 	lifenum = new message();
 	resultGame_brick = NULL;
-	filein.close();
+	ball_brick->setVx(vx);
+	ball_brick->setVy(vy);
 }
 void BrickGame::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen,int savegame) {
 	int flag = 0;	//flag = 0 báo hiệu cho việc chúng ta sẽ sử dụng cửa sổ chứ không phải fullscreen
@@ -136,6 +155,8 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 		scoreShow_brick = new message();
 		lifenum = new message();
 		resultGame_brick = NULL;
+		ball_brick->setVx(-1.5);
+		ball_brick->setVy(1.5);
 	}
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
 }
@@ -145,7 +166,7 @@ void BrickGame::update() {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			if (table[i][j] != NULL) {
-				if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == true) {
+				if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == 1) {
 					table[i][j]->updateReward();
 					if (table[i][j]->isOut())
 						table[i][j] = NULL;
@@ -155,10 +176,18 @@ void BrickGame::update() {
 		}
 	}
 	ball_brick->update();
-
 	int x = ball_brick->getScore_1();
 	scoreShow_brick->setText(x);
 	int new_life = ball_brick->getLife();
+	if (isWin())
+	{
+		cleanSave();
+		board.initScore();
+		board.add(ball_brick->getScore_1());
+		resultGame_brick = new message();
+		resultGame_brick->setText("You Win");
+		isRunning = false;
+	}
 	if (new_life == 0)
 	{
 		cleanSave();
@@ -192,8 +221,6 @@ void BrickGame::render() {
 		}
 	}
 	ball_brick->render();
-
-
 	scoreShow_brick->render(100, 0, 50,40);
 	lifenum->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brick != NULL) {
@@ -232,15 +259,24 @@ void BrickGame::saveGame()
 	fileout << ball_brick->getScore_1() << endl;
 	fileout << ball_brick->getX() << endl;
 	fileout << ball_brick->getY() << endl;
+	fileout << ball_brick->getVx() << endl;
+	fileout << ball_brick->getVy() << endl;
 	fileout << paddle_brick->getPaddleXpos()<< endl;
 	fileout << paddle_brick->getPaddleYpos() << endl;
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			Brick* temp = table[i][j];
-			if (temp==NULL)
-				fileout << 0 << "," << 0 << "," << 0 << ","<<0<<"  ";
+			if (temp == NULL)
+				fileout << 0 << "," << 0 << "," << 0 << "," << 0 << "," << 0 << "," << "No ";
 			else
-				fileout << temp->getX() << "," << temp->getY() << "," << temp->getHp() << ","<<temp->getLoot()<<"  ";
+			{
+				if (temp->getType() == "reward")
+				{
+					 fileout << temp->getDestx() << "," << temp->getDesty() << "," << temp->getHp() << "," << temp->getLoot() << "," << temp->isCollected() << "," << temp->getType() << " ";
+				}
+				else
+					fileout << temp->getX() << "," << temp->getY() << "," << temp->getHp() << "," << temp->getLoot() << "," << temp->isCollected() << "," << temp->getType() << " ";
+			}
 		}
 		fileout << endl;
 	}
@@ -252,6 +288,16 @@ void BrickGame::cleanSave()
 	fileout.open("PNGFile/savegame.txt",ios::trunc);
 	fileout << "";
 	fileout.close();
+}
+bool BrickGame::isWin()
+{
+	for (size_t i = 0; i < table.size(); i++) {
+		for (size_t j = 0; j < table[i].size(); j++) {
+			if (table[i][j] != NULL)
+				return false;
+		}
+	}
+	return true;
 }
 void BrickGame::clean() {
 	SDL_DestroyWindow(window);

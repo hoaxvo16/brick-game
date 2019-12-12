@@ -14,7 +14,7 @@ Brick::Brick(string brickSheet, int x, int y, int width, int height, string type
 	_loot = loot;
 }
 
-Brick::Brick(int x, int y, int width, int height, int loot) {
+Brick::Brick(int x, int y, int width, int height, int loot,int collected) {
 	string rewardSheet;
 	switch (loot) {
 	case 1:
@@ -28,8 +28,17 @@ Brick::Brick(int x, int y, int width, int height, int loot) {
 		break;
 	}
 	rewardTexture = textureManager::loadTexture(rewardSheet.c_str());
-	_x = x * 80 + 15;
-	_y = (y + 1) * 60 + 5;
+	if (collected == 0)
+	{
+		_x = x * 80 + 15;
+		_y = (y + 1) * 60 + 5;
+	}
+	else
+	{
+		_x = x;
+		_y = y;
+		destRect.y = y;
+	}
 	_width = width;
 	_height = height;
 	_type = "reward";
