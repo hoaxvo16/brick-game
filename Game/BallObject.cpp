@@ -121,6 +121,15 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 	if (target != NULL) {
 		if (target->getType() == "reward" && !target->isCollected())
 			target->setCollected();
+		else if (target->getHp() == 1) {
+			int targetX = target->getTableX();
+			int targetY = target->getTableY();
+			table[(size_t) targetX][(size_t) targetY] = NULL;
+			if (target->getLoot() < 4) {
+				table[(size_t) targetX][(size_t) targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot(), 0);
+				table[(size_t) targetX][(size_t) targetY]->render();
+			}
+		}
 		else if (target->getHp() == 3)
 			score1 += 5;
 		else if (target->getHp() == 2)

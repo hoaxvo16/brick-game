@@ -41,3 +41,7 @@ void Skills::execLaser(vector<vector<Brick*>>& table) {
 		table[i][_pos] = NULL;
 	}
 }
+
+void Skills::execHp() {
+	
+}

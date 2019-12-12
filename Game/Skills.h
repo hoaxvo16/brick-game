@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include "textureManager.h"
 #include "Brick.h"
+#include "BallObject.h"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -22,5 +23,6 @@ public:
 	void update();
 	int getStart() { return _start; }
 	int getDuration() { return _duration; }
+	void execHp();
 };
 

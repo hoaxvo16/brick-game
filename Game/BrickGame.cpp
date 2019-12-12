@@ -87,7 +87,7 @@ void BrickGame::initSave(){
 				    path = "PNGFile/rect3.png";
 				else if(hp==2)
 					path= "PNGFile/rect2.png";
-				else
+				else if (hp == 1)
 					path = "PNGFile/rect1.png";
 				Brick* brick = new Rect(path, x, y, 80, 60, "rect", hp, loot);
 				table[i][j] = brick;
@@ -169,17 +169,7 @@ void BrickGame::update() {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			if (table[i][j] != NULL) {
-				Brick* target = table[i][j];
-				if (target->getHp() == 1) {
-					int targetX = target->getTableX();
-					int targetY = target->getTableY();
-					table[(size_t) targetX][(size_t) targetY] = NULL;
-					if (target->getLoot() < 4) {
-						table[(size_t) targetX][(size_t) targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot(), 0);
-						table[(size_t)targetX][(size_t)targetY]->render();
-					}
-				}
-				else if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == 1) {
+				if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == 1) {
 					table[i][j]->updateReward();
 					int loot = table[i][j]->isTouchWithPaddle(paddle_brick);
 					if (loot != 0) {

@@ -11,6 +11,7 @@ int Rect::getH() { return _height; }
 void Rect::updateHpImg() {
 	//change img
 	_hp--;
+	cout << _hp << endl;
 	switch (_hp) {
 	case 1:
 		_sheet = "PNGFile/rect1.png";
