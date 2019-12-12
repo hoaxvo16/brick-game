@@ -114,10 +114,6 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 	return false;
 }
 void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
-	if (velocityX == 0 && velocityY == 0) {	//Phat sinh luc bat dau game
-		velocityX = -1.5;
-		velocityY = 1.5;
-	}
 	xpos += velocityX;	//Cộng theo vận tốc
 	ypos += velocityY;
 	isTouch(p);	//Xét sự va chạm
@@ -125,10 +121,25 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 	if (target != NULL) {
 		if (target->getType() == "reward" && !target->isCollected())
 			target->setCollected();
+<<<<<<< HEAD
 		else if (target->getHp() == 3)
 			score1 += 5;
 		else if (target->getHp() == 2)
 			score1 += 10;
+=======
+			cout << "HERE";
+		}
+		else if (target->getHp() == 1) {
+			score1 += 10;
+			int targetX = target->getTableX();
+			int targetY = target->getTableY();
+			table[(size_t)targetX][(size_t)targetY] = NULL;
+			if (target->getLoot() < 4) {
+				table[(size_t)targetX][(size_t)targetY] = new Reward(targetY, targetX, 50, 50, target->getLoot(),0); 
+				table[(size_t)targetX][(size_t)targetY]->render();
+			}
+		}
+>>>>>>> 580d859167551ca0be9ae35fba794acf2148883e
 		target->updateHpImg();
 	}
 }
@@ -190,12 +201,10 @@ void BallObject::strikeAngle(PaddleObject* paddle) {
 	float ballX = xpos + BALL_RADIUS / 2;
 	float mid = paddle->getPaddleXpos() + PADDLE_HEIGHT / 2;
 	float halfPI = PI / 2; // when someone ate your pie
-
 	srand(time(NULL));
 	float x = rand() % 10 + 0;
 	// Goc bat khac nhau cho trai banh
 	float strike1 = (14 + x) * PI / 180; float strike2 = (25 + x) * PI / 180; float strike3 = (57 + x) * PI / 180;
-
 	if (mid - layer1 <= ballX && ballX <= mid)
 		setAngle(-halfPI - strike1);
 	else if (mid < ballX && ballX < mid + layer1)
@@ -284,8 +293,8 @@ Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 
 int BallObject::isOut() {
 	if (ypos > WINDOW_HEIGHT + 5) {
-		velocityX = -1.5;
-		velocityY = 1.5;
+		velocityX = -1.8;
+		velocityY = 1.8;
 		return 1;
 	}
 	return 0;

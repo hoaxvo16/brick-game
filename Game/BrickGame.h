@@ -31,6 +31,10 @@ public:
 	void saveGame();
 	void initSave();
 	void cleanSave();
+<<<<<<< HEAD
 	void skill(int loot);
+=======
+	bool isWin();
+>>>>>>> 580d859167551ca0be9ae35fba794acf2148883e
 };
 

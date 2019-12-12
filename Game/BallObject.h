@@ -38,7 +38,23 @@ public:
 	//Xét sự va chạm
 	int isOut();
 	void setLife(int x);
+	void setVx(int x)
+	{
+		velocityX = x;
+	}
+	void setVy(int y)
+	{
+		velocityY = y;
+	}
 	//Banh ra ngoài chưa?
+	int getVx()
+	{
+		return velocityX;
+	}
+	int getVy()
+	{
+		return velocityY;
+	}
 	int getScore_1()
 	{
 		return score1;

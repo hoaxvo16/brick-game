@@ -82,7 +82,6 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 				}
 				if (savegame == -1)
 					goto loop;
-				cout << savegame << endl;
 				if (!isSave && savegame == 2||isSave&&savegame==3)
 				{
 					AbstractGame* board = new AchievementBoard();
