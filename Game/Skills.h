@@ -3,10 +3,11 @@
 #include <SDL_image.h>
 #include "textureManager.h"
 #include "Brick.h"
-#include "BallObject.h"
+#include"BallObject.h"
 #include <vector>
 #include <iostream>
 using namespace std;
+class BallObject;
 class Skills {
 private:
 	int _start;
@@ -16,13 +17,13 @@ private:
 	int _x, _y, _w, _h;
 	int _pos;
 public:
-	Skills(vector<vector<Brick*>>& table, int loot, int pos);
-	void execLaser(vector<vector<Brick*>>& table);
+	Skills(vector<vector<Brick*>>& table, int loot, int pos,BallObject*& ball);
+	void execLaser(vector<vector<Brick*>>& table,BallObject*& ball);
 	void setTexture(string sheet);
 	void render();
 	void update();
 	int getStart() { return _start; }
 	int getDuration() { return _duration; }
-	void execHp();
+	void execHp(BallObject*& ball);
 };
 
