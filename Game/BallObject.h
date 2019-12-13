@@ -38,20 +38,20 @@ public:
 	//Xét sự va chạm
 	int isOut();
 	void setLife(int x);
-	void setVx(int x)
+	void setVx(float x)
 	{
 		velocityX = x;
 	}
-	void setVy(int y)
+	void setVy(float y)
 	{
 		velocityY = y;
 	}
 	//Banh ra ngoài chưa?
-	int getVx()
+	float getVx()
 	{
 		return velocityX;
 	}
-	int getVy()
+	float getVy()
 	{
 		return velocityY;
 	}
