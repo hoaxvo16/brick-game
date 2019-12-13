@@ -23,3 +23,18 @@ void BotPaddle::updateBOT(BallObject *ball)
 		moveDown();
 	}
 }	//Điều kiện trong if là để điều chỉnh việc di chuyển của BOT sao cho hợp lí
+void BotPaddle::updateBrickBot(BallObject* ball)
+{
+	PaddleObject::updateforbrick();//Cập nhật vị trí thanh như bình thường
+	int centerBall = ball->getCenterOfBallOx();
+	if (centerBall < xpos + PADDLE_WIDTH / 2 + 20)	//Nếu banh đi xuống phía trên thanh
+	{
+		moveLeft();
+		moveLeft();
+	}
+	else if (centerBall > xpos - PADDLE_WIDTH / 2 - 20)	//Ngược lại
+	{
+		moveRight();
+		moveRight();
+	}
+}

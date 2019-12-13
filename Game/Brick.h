@@ -40,8 +40,6 @@ public:
 	virtual int getDestx() { return destRect.x; };
 	virtual int getDesty() { return destRect.y; };
 	virtual void updateHpImg() = 0;
-	virtual void setDestx(int x){ destRect.x = x; }
-	virtual void setDesty(int y){ destRect.y = y; }
 	virtual bool isOut() { return true; }
 	virtual int isTouchWithPaddle(PaddleObject* paddle);
 };

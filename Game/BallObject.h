@@ -67,6 +67,10 @@ public:
 	{
 		return ypos + BALL_RADIUS / 2;
 	}
+	int getCenterOfBallOx()
+	{
+		return xpos + BALL_RADIUS / 2;
+	}
 	int getLife()
 	{
 		return life;
