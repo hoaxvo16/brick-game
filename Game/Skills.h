@@ -10,11 +10,12 @@ using namespace std;
 class BallObject;
 class Skills {
 private:
-	int _start;
+	int _start = 0;
 	int _duration;
 	SDL_Texture* skillTexture;
 	SDL_Rect destRect;
 	int _x, _y, _w, _h;
+	int _loot;
 	int _pos;
 public:
 	Skills(vector<vector<Brick*>>& table, int loot, int pos,BallObject*& ball);
@@ -25,5 +26,8 @@ public:
 	int getStart() { return _start; }
 	int getDuration() { return _duration; }
 	void execHp(BallObject*& ball);
+	void execMissile(vector<vector<Brick*>>& table);
+	void updateMissile(vector<vector<Brick*>>& table);
+	int getLoot() { return _loot; }
 };
 

@@ -37,7 +37,8 @@ void BrickGame::initTable() {
 	for (size_t i = 0; i < 30;) {
 		size_t ranX = rand() % 10;
 		size_t ranY = rand() % 5;
-		int loot = rand() % 10 + 1;
+		//int loot = rand() % 10 + 1;
+		int loot = 3;
 		Brick* brick = new Rect("PNGFile/rect3.png", ranX, ranY, 80, 60, "rect", 3, loot);
 		if (table[ranY][ranX] == NULL) {
 			table[ranY][ranX] = brick;
@@ -184,8 +185,11 @@ void BrickGame::update() {
 	}
 	ball_brick->update();
 	if (skillExe != NULL) {
-		skillExe->update();
-		if (SDL_GetTicks() - skillExe->getStart() > skillExe->getDuration())
+		if (skillExe->getLoot() == 3)
+			skillExe->updateMissile(table);
+		else 
+			skillExe->update();
+		if (skillExe->getStart() != 0 && SDL_GetTicks() - skillExe->getStart() > skillExe->getDuration())
 			skillExe = NULL;
 	}
 

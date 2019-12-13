@@ -7,7 +7,7 @@
 #include <time.h>
 #define BALL_RADIUS 20	//Size của quả banh
 #define INIT_SPEED_X 0.1	//Vận tốc x ban đầu
-#define INIT_SPEED_Y 0.01	//Vận tộc y ban đầu
+#define INIT_SPEED_Y 0.1	//Vận tộc y ban đầu
 #define PI 3.14159
 class BallObject
 {
