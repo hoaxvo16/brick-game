@@ -17,7 +17,7 @@ message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
 message* resultGame_brick = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
 
 float xball = WINDOW_WIDTH / 2;
-float yball = WINDOW_HEIGHT - 300;
+float yball = WINDOW_HEIGHT - 350;
 message* lifenum = NULL;
 
 int xpaddle = WINDOW_WIDTH / 2 - 80;
@@ -48,7 +48,7 @@ void BrickGame::initTable() {
 void BrickGame::initSave(){
 	int newlife;
 	int newscore;
-	int vx, vy;
+	float vx, vy;
 	char c;
 	int x, y, hp, loot,collected;
 	string type;
