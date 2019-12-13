@@ -1,5 +1,9 @@
 ﻿#include "AchievementBoard.h"
 SDL_Texture* background_board = NULL;
+SDL_Texture* golden = NULL;
+SDL_Texture* silver = NULL;
+SDL_Texture* bronze = NULL;
+SDL_Rect rect1,rect2,rect3;
 message* temp = NULL;
 void AchievementBoard::Sort()
 {
@@ -68,6 +72,11 @@ void AchievementBoard::init(std::string title, int xpos, int ypos, int width, in
 	//SDL_Surface* tmpSurface = IMG_Load("PNGFile/title.png");	//Tạo một mặt phẳng để lưu lại hình vẽ trong file
 	//SDL_Texture* texture = SDL_CreateTextureFromSurface(AchievementBoard::rendered, tmpSurface);
 	background_board = textureManager::loadTexture("PNGFile/title.png");
+	golden = textureManager::loadTexture("PNGFile/goldenmedal.png");
+	silver = textureManager::loadTexture("PNGFile/silvermedal.png");
+    bronze= textureManager::loadTexture("PNGFile/bronzemedal.png");
+	rect1.h =rect2.h=rect3.h= 80;
+	rect1.w =rect2.w=rect3.w= 80;
 	mess.resize(score.size());
 	for (int i = 0; i < score.size(); i++)
 	{
@@ -115,8 +124,17 @@ bool AchievementBoard::CheckEmpty()
 }
 void AchievementBoard::render()
 {
+	rect1.x = 110;
+	rect2.x = 127;
+	rect3.x = 95;
+	rect1.y = 380;
+	rect2.y = rect1.y + 15;
+	rect3.y = rect2.y + 45;
 	SDL_RenderClear(rendered);
 	SDL_RenderCopy(AchievementBoard::rendered,background_board, NULL, NULL);
+	SDL_RenderCopy(AchievementBoard::rendered, golden, NULL, &rect1);
+	SDL_RenderCopy(AchievementBoard::rendered, silver, NULL, &rect2);
+	SDL_RenderCopy(AchievementBoard::rendered, bronze, NULL, &rect3);
 	int x = 80, y = 380;
 	message* title = new message();
 	title->setText("Achievement: ");
