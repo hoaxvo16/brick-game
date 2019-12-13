@@ -225,6 +225,7 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 	int paddleYpos = paddle->getPaddleYpos();
 	int edgeRes = rectCollided(xpos, ypos, BALL_RADIUS + 0.0, paddleXpos, paddleYpos, PADDLE_HEIGHT, PADDLE_WIDTH);
 	if (edgeRes == 2) {
+		cout << edgeRes << endl;
 		strikeAngle(paddle);
 		if (speed <= 30) {	//Tăng theo gia tốc, tối đa 30 lần
 			velocityX *= 1 + accelerate;
@@ -240,7 +241,6 @@ Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 		for (size_t j = 0; j < table[i].size(); j++) {
 			Brick* target = table[i][j];
 			if (target == NULL || (target->getType() == "reward" && target->isCollected())) continue;
-
 			int edge = rectCollided(xpos + (BALL_RADIUS + 0.0) / 2, ypos + (BALL_RADIUS + 0.0) / 2, (BALL_RADIUS / 2) + 0.0, target->getX(), target->getY(), target->getW(), target->getH());
 			if (0 <= edge && edge < 4) {
 				if ((target->getType() == "reward" && !target->isCollected()))
