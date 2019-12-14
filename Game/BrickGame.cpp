@@ -9,7 +9,9 @@ BallObject* ball_brick = NULL;
 SDL_Texture* background_brick = NULL;
 SDL_Texture* life = NULL;
 SDL_Texture* scoretext = NULL;
-Skills* skillExe = NULL;
+Skills* skillExe1 = NULL;
+Skills* skillExe2 = NULL; // 2 more for missile skill
+Skills* skillExe3 = NULL;
 //SDL_Renderer* Game::rendered = NULL;
 //Biến rendered được dùng để render(lưu lại những hình vẽ và vị trí của mỗi object, chờ cơ hội để bộc phát)
 message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
@@ -148,7 +150,7 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	{
 		paddle_brick = new PaddleObject("PNGFile/paddlebrick.png", xpaddle, ypaddle);
 		ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
-		ball_brick->setLife(3);
+		ball_brick->setLife(10);
 		/*Truy cập file hình ở bên ngoài thư mục chứa project
 		2 tham số sau chỉ vị trí sẽ xuất hình trên cửa sổ*/
 		background_brick = textureManager::loadTexture("PNGFile/brick.jpg");
@@ -177,7 +179,12 @@ void BrickGame::update() {
 					table[i][j]->updateReward();
 					int loot = table[i][j]->isTouchWithPaddle(paddle_brick);
 					if (loot != 0) {
-						skillExe = new Skills(table, loot, j, ball_brick);
+						if (loot == 3) {
+							skillExe1 = new Skills(table, loot, j, 1, ball_brick);
+							skillExe2 = new Skills(table, loot, j, 2, ball_brick);
+							skillExe3 = new Skills(table, loot, j, 3, ball_brick);
+						} else skillExe1 = new Skills(table, loot, j, -1, ball_brick);
+						
 						table[i][j] = NULL;
 					} else if (table[i][j]->isOut())
 						table[i][j] = NULL;
@@ -187,13 +194,23 @@ void BrickGame::update() {
 		}
 	}
 	ball_brick->update();
-	if (skillExe != NULL) {
-		if (skillExe->getLoot() == 3)
-			skillExe->updateMissile(table);
+	if (skillExe1 != NULL) {
+		if (skillExe1->getLoot() == 3)
+			skillExe1->updateMissile(table);
 		else 
-			skillExe->update();
-		if (skillExe->getStart() != 0 && SDL_GetTicks() - skillExe->getStart() > skillExe->getDuration())
-			skillExe = NULL;
+			skillExe1->update();
+		if (skillExe1->getStart() != 0 && SDL_GetTicks() - skillExe1->getStart() > skillExe1->getDuration())
+			skillExe1 = NULL;
+	}
+	if (skillExe2 != NULL) {
+		skillExe2->updateMissile(table);
+		if (skillExe2->getStart() != 0 && SDL_GetTicks() - skillExe2->getStart() > skillExe2->getDuration())
+			skillExe2 = NULL;
+	}
+	if (skillExe3 != NULL) {
+		skillExe3->updateMissile(table);
+		if (skillExe3->getStart() != 0 && SDL_GetTicks() - skillExe3->getStart() > skillExe3->getDuration())
+			skillExe3 = NULL;
 	}
 
 	int x = ball_brick->getScore_1();
@@ -241,7 +258,9 @@ void BrickGame::render() {
 		}
 	}
 	ball_brick->render();
-	if (skillExe != NULL) skillExe->render();
+	if (skillExe1 != NULL) skillExe1->render();
+	if (skillExe2 != NULL) skillExe2->render();
+	if (skillExe3 != NULL) skillExe3->render();
 	scoreShow_brick->render(100, 0, 50,40);
 	lifenum->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brick != NULL) {

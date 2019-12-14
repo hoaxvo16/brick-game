@@ -13,12 +13,14 @@ private:
 	int _start = 0;
 	int _duration;
 	SDL_Texture* skillTexture;
-	SDL_Rect destRect;
-	int _x, _y, _w, _h;
+	SDL_FRect destRect;
+	float _x, _y;
+	int _w, _h;
 	int _loot;
 	int _pos;
+	int _missile = -1; // 0 mid, 1 left, 2 right, -1 none
 public:
-	Skills(vector<vector<Brick*>>& table, int loot, int pos,BallObject*& ball);
+	Skills(vector<vector<Brick*>>& table, int loot, int pos, int missile_num, BallObject*& ball);
 	void execLaser(vector<vector<Brick*>>& table,BallObject*& ball);
 	void setTexture(string sheet);
 	void render();
@@ -27,7 +29,9 @@ public:
 	int getDuration() { return _duration; }
 	void execHp(BallObject*& ball);
 	void execMissile(vector<vector<Brick*>>& table);
-	void updateMissile(vector<vector<Brick*>>& table);
 	int getLoot() { return _loot; }
+	void updateMissile(vector<vector<Brick*>>& table);
+	void renderExplosion(int x, int y);
+	bool isTouchWithTarget(Brick* target);
 };
 
