@@ -1,4 +1,5 @@
-#include "Menu.h"
+﻿#include "Menu.h"
+//Hàm vẽ menu//
 int drawMenu(AbstractGame* gameWindow, const int FPS)
 {
 	SDL_Texture* title = textureManager::loadTexture("PNGFile/title.png");
@@ -93,6 +94,7 @@ int drawMenu(AbstractGame* gameWindow, const int FPS)
 	}
 	return decision;
 }
+//Hàm vẽ menu phụ không save game
 int drawSubMenu(AbstractGame* gameWindow, const int FPS)
 {
 	SDL_Texture* title = textureManager::loadTexture("PNGFile/title.png");
@@ -195,6 +197,7 @@ int drawSubMenu(AbstractGame* gameWindow, const int FPS)
 	}
 	return decision;
 }
+//Hàm vẽ menu phụ có save game//
 int drawSubMenuNotSave(AbstractGame* gameWindow, const int FPS)
 {
 	SDL_Texture* title = textureManager::loadTexture("PNGFile/title.png");

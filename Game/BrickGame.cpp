@@ -17,14 +17,11 @@ Skills* skillExe3 = NULL;
 message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
 	//Này bên tay phải
 message* resultGame_brick = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
-
 float xball = WINDOW_WIDTH / 2;
 float yball = WINDOW_HEIGHT - 350;
 message* lifenum = NULL;
-
 int xpaddle = WINDOW_WIDTH / 2 - 80;
 int ypaddle = WINDOW_HEIGHT - 10;
-
 BrickGame::BrickGame() {
 
 }
@@ -36,17 +33,29 @@ void BrickGame::initTable() {
 	table.resize(5);
 	for (size_t i = 0; i < 5; i++)
 		table[i].resize(10);
-	for (size_t i = 0; i < 30;) {
+	int freeRew = 1;
+	int weakBrick = 0;
+	for (size_t i = 0; i < 37;) {
 		size_t ranX = rand() % 10;
 		size_t ranY = rand() % 5;
-		int loot = rand() % 10 + 1;
-		Brick* brick = new Rect("PNGFile/rect3.png", ranX, ranY, 80, 60, "rect", 3, loot);
-		if (table[ranY][ranX] == NULL) {
+		int loot = rand() % 15 + 1;
+		int ranPos = rand() % 3;
+		Brick* brick = NULL;
+		if (ranPos == 0) brick = new Rect("PNGFile/rect3.png", ranX, ranY, 80, 60, "rect", 3, loot);
+		else if (ranPos == 1 && freeRew < 4) {
+			brick = new Reward(ranX, ranY, 50, 50, freeRew, 0);
+			freeRew++;
+		} else if (ranPos == 2 && weakBrick < 3) {
+			brick = new Rect("PNGFile/rect1.png", ranX, ranY, 80, 60, "rect", 1, loot);
+			weakBrick++;
+		}
+		if (brick != NULL && table[ranY][ranX] == NULL) {
 			table[ranY][ranX] = brick;
 			i++;
 		}
 	}
 }
+/*Hàm khởi tạo game từ file đã lưu*/
 void BrickGame::initSave(){
 	int newlife;
 	int newscore;
