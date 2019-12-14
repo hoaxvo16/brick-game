@@ -30,7 +30,7 @@ public:
 	void execHp(BallObject*& ball);
 	void execMissile(vector<vector<Brick*>>& table);
 	int getLoot() { return _loot; }
-	void updateMissile(vector<vector<Brick*>>& table);
+	void updateMissile(vector<vector<Brick*>>& table, BallObject*& ball);
 	void renderExplosion(int x, int y);
 	bool isTouchWithTarget(Brick* target);
 };

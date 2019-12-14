@@ -43,11 +43,12 @@ void Skills::execLaser(vector<vector<Brick*>>& table,BallObject*& ball) {
 	_y = 0;
 	_w = 60;
 	_h = 688;
-
 	for (size_t i = 0; i < 5; i++) {
 		if (table[i][_pos] != NULL && table[i][_pos]->getType() == "rect")
+		{
 			ball->setScore(ball->getScore_1() + 10);
-		table[i][_pos] = NULL;
+			table[i][_pos] = NULL;
+		}
 	}
 }
 
@@ -69,7 +70,7 @@ bool Skills::isTouchWithTarget(Brick* target) {
 	return false;
 }
 
-void Skills::updateMissile(vector<vector<Brick*>>& table) {
+void Skills::updateMissile(vector<vector<Brick*>>& table, BallObject*& ball) {
 	int targetY;
 	int targetX;
 	size_t targetRow;
@@ -89,11 +90,13 @@ void Skills::updateMissile(vector<vector<Brick*>>& table) {
 					targetRow = i;
 				}
 			}
-
 			if (destRect.y <= targetY) {
 				renderExplosion(_pos * 80 - 10, destRect.y - 30);
 				if (targetY != 0)
+				{
 					table[targetRow][targetCol] = NULL;
+					ball->setScore(ball->getScore_1() + 10);
+				}
 			}
 		}
 	}
@@ -107,7 +110,9 @@ void Skills::updateMissile(vector<vector<Brick*>>& table) {
 				for (size_t j = 0; j < _pos; j++) {
 					Brick* target = table[i][j];
 					if (target != NULL && target->getType() == "rect" && isTouchWithTarget(target)) {
-						renderExplosion(destRect.x - 10, destRect.y - 30);												table[i][j] = NULL;
+						table[i][j] = NULL;
+						renderExplosion(destRect.x - 10, destRect.y - 30);	
+						ball->setScore(ball->getScore_1() + 10);
 						return;
 					}
 				}
@@ -128,6 +133,7 @@ void Skills::updateMissile(vector<vector<Brick*>>& table) {
 					Brick* target = table[i][j];
 					if (target != NULL && target->getType() == "rect" && isTouchWithTarget(target)) {
 						renderExplosion(destRect.x, destRect.y - 90);
+						ball->setScore(ball->getScore_1() + 10);
 						table[i][j] = NULL;
 						return;
 					}
@@ -159,15 +165,12 @@ void Skills::execMissile(vector<vector<Brick*>>& table) {
 	}
 	setTexture(texture);
 	_y = 688;
-
 	destRect.x = _x;
 	destRect.y = _y;
 	destRect.w = _w;
 	destRect.h = _h;
 	render();
 }
-
-
 void Skills::execHp(BallObject*& ball) {
 	int x = ball->getLife() + 1;
 	ball->setLife(x);

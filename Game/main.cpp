@@ -64,8 +64,8 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 		}
 		else if(decision==0)
 		{
-			int savegame = 0;
-			while (savegame != 2)
+			int choose = 0;
+			while (choose!= 2)
 			{
 				system("cls");
 				loop1:bool isSave = isSaveGame();
@@ -73,21 +73,21 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 				submenu->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,0);
 				if (isSave)
 				{
-					savegame = drawSubMenu(submenu, FPS);
+					choose = drawSubMenu(submenu, FPS);
 					submenu->clean();
 				}
 				else
 				{
-					savegame = drawSubMenuNotSave(submenu, FPS);
+					choose = drawSubMenuNotSave(submenu, FPS);
 					submenu->clean();
 				}
-				if (savegame == -1)
+				if (choose == -1)
 					goto loop;
-				if (savegame == 1 && !isSave || savegame == 2 && isSave)
+				if (choose == 1 && !isSave || choose == 2 && isSave)
 				{
 					AbstractGame* game = new BrickGameBot();//Khoi tao game de choi
 			// Chi can thay GameBOT <-> Game de doi che do choi
-					game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false, savegame);
+					game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false, choose);
 					//Khoi tao cua so tro choi, cua so se nam giua man hinh
 					//WINDOW_WIDTH la do rong cua cua so
 					//WINDOW_HEIGHT la chieu cao cua cua so
@@ -104,8 +104,9 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 						}
 					}
 					game->clean();
+					goto loop1;
 				}
-				if (!isSave && savegame == 2||isSave&&savegame==3)
+				if (!isSave && choose == 2||isSave&&choose==3)
 				{
 					AbstractGame* board = new AchievementBoard();
 					board->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,0);
@@ -117,13 +118,13 @@ int main(int argc, char* argv[]) {	//Ham main can phai co tham so nay no moi cha
 					board->clean();
 					goto loop1;
 				}
-				if (savegame == 4&&isSave||savegame==3&&!isSave)
+				if (choose == 4&&isSave||choose==3&&!isSave)
 					goto loop;
-				if (savegame == 0 || savegame == 1&&isSave)
+				if (choose == 0 || choose == 1&&isSave)
 				{
 					AbstractGame* game = new BrickGame();//Khoi tao game de choi
 			// Chi can thay GameBOT <-> Game de doi che do choi
-					game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,savegame);
+					game->init("Pong Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false,choose);
 					//Khoi tao cua so tro choi, cua so se nam giua man hinh
 					//WINDOW_WIDTH la do rong cua cua so
 					//WINDOW_HEIGHT la chieu cao cua cua so

@@ -10,7 +10,9 @@ BallObject*  ball_brickBOT = NULL;
 SDL_Texture* background_brickBOT = NULL;
 SDL_Texture* lifeBOT = NULL;
 SDL_Texture* scoretextBOT = NULL;
-Skills* skillExeBOT = NULL;
+Skills* skillExe1BOT = NULL;
+Skills* skillExe2BOT = NULL; // 2 more for missile skill
+Skills* skillExe3BOT = NULL;
 //SDL_Renderer* Game::rendered = NULL;
 //Biến rendered được dùng để render(lưu lại những hình vẽ và vị trí của mỗi object, chờ cơ hội để bộc phát)
 message* scoreShow_brickBOT = NULL;	//Cái tỉ số bên tay trái á
@@ -98,46 +100,65 @@ void BrickGameBot::init(std::string title, int xpos, int ypos, int width, int he
 void BrickGameBot::update() {
 	paddle_brickBOT->updateBrickBot( ball_brickBOT);//Khác biệt duy nhất với Game.cpp :)))
 	 ball_brickBOT->move(paddle_brickBOT, table);
-	for (size_t i = 0; i < table.size(); i++) {
-		for (size_t j = 0; j < table[i].size(); j++) {
-			if (table[i][j] != NULL) {
-				if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == 1) {
-					table[i][j]->updateReward();
-					int loot = table[i][j]->isTouchWithPaddle(paddle_brickBOT);
-					if (loot != 0) {
-						skillExeBOT = new Skills(table, loot, j,  ball_brickBOT);
-						table[i][j] = NULL;
-					}
-					else if (table[i][j]->isOut())
-						table[i][j] = NULL;
-				}
-				else table[i][j]->update();
-			}
-		}
-	}
-	 ball_brickBOT->update();
-	if (skillExeBOT != NULL) {
-		skillExeBOT->update();
-		if (SDL_GetTicks() - skillExeBOT->getStart() > skillExeBOT->getDuration())
-			skillExeBOT = NULL;
-	}
+	 for (size_t i = 0; i < table.size(); i++) {
+		 for (size_t j = 0; j < table[i].size(); j++) {
+			 if (table[i][j] != NULL) {
+				 if (table[i][j]->getType() == "reward" && table[i][j]->isCollected() == 1) {
+					 table[i][j]->updateReward();
+					 int loot = table[i][j]->isTouchWithPaddle(paddle_brickBOT);
+					 if (loot != 0) {
+						 if (loot == 3) {
+							 skillExe1BOT = new Skills(table, loot, j, 1, ball_brickBOT);
+							 skillExe2BOT = new Skills(table, loot, j, 2, ball_brickBOT);
+							 skillExe3BOT = new Skills(table, loot, j, 3, ball_brickBOT);
+						 }
+						 else skillExe1BOT = new Skills(table, loot, j, -1, ball_brickBOT);
 
-	int x =  ball_brickBOT->getScore_1();
-	scoreShow_brickBOT->setText(x);
-	int new_life =  ball_brickBOT->getLife();
-	if (isWin())
-	{
-		resultGame_brickBOT = new message();
-		resultGame_brickBOT->setText("Bot Win");
-		isRunning = false;
-	}
-	if (new_life == 0)
-	{
-		resultGame_brickBOT = new message();
-		resultGame_brickBOT->setText("Bot Lost");
-		isRunning = false;
-	}
-	lifenumBOT->setText(new_life);
+						 table[i][j] = NULL;
+					 }
+					 else if (table[i][j]->isOut())
+						 table[i][j] = NULL;
+				 }
+				 else table[i][j]->update();
+			 }
+		 }
+	 }
+	 ball_brickBOT->update();
+	 if (skillExe1BOT != NULL) {
+		 if (skillExe1BOT->getLoot() == 3)
+			 skillExe1BOT->updateMissile(table,ball_brickBOT);
+		 else
+			 skillExe1BOT->update();
+		 if (skillExe1BOT->getStart() != 0 && SDL_GetTicks() - skillExe1BOT->getStart() > skillExe1BOT->getDuration())
+			 skillExe1BOT = NULL;
+	 }
+	 if (skillExe2BOT != NULL) {
+		 skillExe2BOT->updateMissile(table,ball_brickBOT);
+		 if (skillExe2BOT->getStart() != 0 && SDL_GetTicks() - skillExe2BOT->getStart() > skillExe2BOT->getDuration())
+			 skillExe2BOT = NULL;
+	 }
+	 if (skillExe3BOT != NULL) {
+		 skillExe3BOT->updateMissile(table,ball_brickBOT);
+		 if (skillExe3BOT->getStart() != 0 && SDL_GetTicks() - skillExe3BOT->getStart() > skillExe3BOT->getDuration())
+			 skillExe3BOT = NULL;
+	 }
+
+	 int x = ball_brickBOT->getScore_1();
+	 scoreShow_brickBOT->setText(x);
+	 int new_life = ball_brickBOT->getLife();
+	 if (isWin())
+	 {
+		 resultGame_brickBOT = new message();
+		 resultGame_brickBOT->setText("Bot Win");
+		 isRunning = false;
+	 }
+	 if (new_life == 0)
+	 {
+		 resultGame_brickBOT = new message();
+		 resultGame_brickBOT->setText("Bot Lose");
+		 isRunning = false;
+	 }
+	 lifenumBOT->setText(new_life);
 }
 void BrickGameBot::render() {
 	SDL_RenderClear(rendered);
@@ -161,7 +182,9 @@ void BrickGameBot::render() {
 		}
 	}
 	 ball_brickBOT->render();
-	if (skillExeBOT != NULL) skillExeBOT->render();
+	 if (skillExe1BOT != NULL) skillExe1BOT->render();
+	 if (skillExe2BOT != NULL) skillExe2BOT->render();
+	 if (skillExe3BOT != NULL) skillExe3BOT->render();
 	scoreShow_brickBOT->render(100, 0, 50, 40);
 	lifenumBOT->render(lifepic.x - 10, 0, 40, 20);
 	if (resultGame_brickBOT != NULL) {

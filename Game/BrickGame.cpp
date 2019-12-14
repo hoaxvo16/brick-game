@@ -39,8 +39,7 @@ void BrickGame::initTable() {
 	for (size_t i = 0; i < 30;) {
 		size_t ranX = rand() % 10;
 		size_t ranY = rand() % 5;
-		//int loot = rand() % 10 + 1;
-		int loot = 3;
+		int loot = rand() % 10 + 1;
 		Brick* brick = new Rect("PNGFile/rect3.png", ranX, ranY, 80, 60, "rect", 3, loot);
 		if (table[ranY][ranX] == NULL) {
 			table[ranY][ranX] = brick;
@@ -150,7 +149,7 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	{
 		paddle_brick = new PaddleObject("PNGFile/paddlebrick.png", xpaddle, ypaddle);
 		ball_brick = new BallObject("PNGFile/Ball.png", xball, yball);
-		ball_brick->setLife(10);
+		ball_brick->setLife(3);
 		/*Truy cập file hình ở bên ngoài thư mục chứa project
 		2 tham số sau chỉ vị trí sẽ xuất hình trên cửa sổ*/
 		background_brick = textureManager::loadTexture("PNGFile/brick.jpg");
@@ -184,7 +183,6 @@ void BrickGame::update() {
 							skillExe2 = new Skills(table, loot, j, 2, ball_brick);
 							skillExe3 = new Skills(table, loot, j, 3, ball_brick);
 						} else skillExe1 = new Skills(table, loot, j, -1, ball_brick);
-						
 						table[i][j] = NULL;
 					} else if (table[i][j]->isOut())
 						table[i][j] = NULL;
@@ -196,23 +194,22 @@ void BrickGame::update() {
 	ball_brick->update();
 	if (skillExe1 != NULL) {
 		if (skillExe1->getLoot() == 3)
-			skillExe1->updateMissile(table);
+			skillExe1->updateMissile(table,ball_brick);
 		else 
 			skillExe1->update();
 		if (skillExe1->getStart() != 0 && SDL_GetTicks() - skillExe1->getStart() > skillExe1->getDuration())
 			skillExe1 = NULL;
 	}
 	if (skillExe2 != NULL) {
-		skillExe2->updateMissile(table);
+		skillExe2->updateMissile(table,ball_brick);
 		if (skillExe2->getStart() != 0 && SDL_GetTicks() - skillExe2->getStart() > skillExe2->getDuration())
 			skillExe2 = NULL;
 	}
 	if (skillExe3 != NULL) {
-		skillExe3->updateMissile(table);
+		skillExe3->updateMissile(table,ball_brick);
 		if (skillExe3->getStart() != 0 && SDL_GetTicks() - skillExe3->getStart() > skillExe3->getDuration())
 			skillExe3 = NULL;
 	}
-
 	int x = ball_brick->getScore_1();
 	scoreShow_brick->setText(x);
 	int new_life = ball_brick->getLife();
@@ -231,7 +228,7 @@ void BrickGame::update() {
 		board.initScore();
 		board.add(ball_brick->getScore_1());
 		resultGame_brick = new message();
-		resultGame_brick->setText("You Lost");
+		resultGame_brick->setText("You Lose");
 		isRunning = false;
 	}
 	lifenum->setText(new_life);
