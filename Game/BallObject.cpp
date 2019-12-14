@@ -114,6 +114,8 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 	}
 	return false;
 }
+
+// Di chuyen ball, cap nhat vi tri
 void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 	if (velocity == 0) {
 		float startAngle = 120 * PI / 180;
@@ -141,8 +143,9 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 		target->updateHpImg();
 	}
 }
+
+// kiem tra va cham giua hinh tron va hinh tu giac
 int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, int rw, int rh) {
-	// temporary variables to set edges for testing
 	float testX = cx;
 	float testY = cy;
 	int edge = -1;
@@ -151,8 +154,7 @@ int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, i
 	//2: top edge
 	//3: bottom edge
 
-	// which edge is closest?
-	if (cx < rx) { // test left edge
+	if (cx < rx) { // left edge
 		testX = rx;
 		edge = 0;
 	}
@@ -169,11 +171,9 @@ int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, i
 			edge = 3;
 		}
 
-	// get distance from closest edges
 	float distX = cx - testX;
 	float distY = cy - testY;
 
-	// if the distance is less than the radius, collision!
 	if (sqrt((distX * distX) + (distY * distY)) <= BALL_RADIUS)
 		return edge;
 	return -1;
@@ -216,6 +216,8 @@ void BallObject::strikeAngle(PaddleObject* paddle) {
 	else if (mid + layer1 + layer2 < ballX && ballX <= paddle->getPaddleXpos() + PADDLE_HEIGHT)
 		setAngle(-halfPI + strike3);
 }
+
+// kiem tra va cham ball va paddle
 bool BallObject::isTouch(PaddleObject* paddle) {
 
 	if (ypos <= 0) {
@@ -230,17 +232,15 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 	int paddleYpos = paddle->getPaddleYpos();
 	int edgeRes = rectCollided(xpos, ypos, BALL_RADIUS + 0.0, paddleXpos, paddleYpos, PADDLE_HEIGHT, PADDLE_WIDTH);
 	if (edgeRes == 2) {
-		if (speed <= 100) {	//Tăng theo gia tốc, tối đa 100 lần
-			velocity *= 1 + accelerate;
-
-			speed++;
-		}
+		velocity *= 1 + accelerate;
+		speed++;
 		strikeAngle(paddle);
-
 		return true;
 	}
 	return false;
 }
+
+// kiem tra va cham giua ball va vien gach
 Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
@@ -286,6 +286,7 @@ Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 //	return 0;
 //}
 
+// kiem tra neu banh ra ngoai man hinh thi reset vi tri, toc do va goc
 int BallObject::isOut() {
 	if (ypos > WINDOW_HEIGHT + 5) {
 		srand(time(NULL));

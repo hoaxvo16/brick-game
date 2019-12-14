@@ -8,6 +8,7 @@ int Reward::getW() { return _width; }
 
 int Reward::getH() { return _height; }
 
+// vat pham roi xuong
 void Reward::updateReward() {
 	destRect.x = _x;
 	destRect.y += 2;
@@ -19,6 +20,7 @@ void Reward::render() {
 	SDL_RenderCopy(Game::rendered, rewardTexture, NULL, &destRect);
 }
 
+// kiem tra neu vat pham cham paddle va tra ve loai vat pham
 int Reward::isTouchWithPaddle(PaddleObject* paddle) {
 	if (_x + _width >= paddle->getPaddleXpos() &&
 		_x <= paddle->getPaddleXpos() + PADDLE_HEIGHT &&
@@ -29,6 +31,7 @@ int Reward::isTouchWithPaddle(PaddleObject* paddle) {
 	return 0;
 }
 
+// kiem tra neu vat pham ra khoi mang hinh
 bool Reward::isOut() {
 	if (destRect.y > WINDOW_HEIGHT)
 		return true;

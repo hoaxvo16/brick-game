@@ -45,14 +45,8 @@ void PaddleObject::moveUp()
 		ypos -= SPEED;
 	}
 }
-int PaddleObject::getPaddleXpos()
-{
-	return xpos;
-}
-int PaddleObject::getPaddleYpos()
-{
-	return ypos;
-}
+int PaddleObject::getPaddleXpos() { return xpos; }
+int PaddleObject::getPaddleYpos() { return ypos; }
 
 // Ham di chuyen cho Bot
 void PaddleObject::moveLeft() {
@@ -66,7 +60,7 @@ void PaddleObject::moveRight() {
 	}
 }
 
-// Ham di chuyen chuot cho Player
+// Ham di chuyen paddle bang chuot cho Player
 void PaddleObject::moveWithMouse(int xMouse) {
 	if (xMouse - PADDLE_HEIGHT / 2 > 0 && xMouse + PADDLE_HEIGHT / 2 < WINDOW_WIDTH)
 		xpos = xMouse - PADDLE_HEIGHT / 2;

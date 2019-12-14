@@ -8,8 +8,8 @@ int Rect::getW() { return _width; }
 
 int Rect::getH() { return _height; }
 
+// thay doi img dua tren mau cua vien gach
 void Rect::updateHpImg() {
-	//change img
 	_hp--;
 	switch (_hp) {
 	case 1:

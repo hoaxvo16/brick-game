@@ -31,6 +31,7 @@ BrickGame::BrickGame() {
 BrickGame::~BrickGame() {
 
 }
+// khoi tao vi tri cua vien gach va vat pham de luu tren table
 void BrickGame::initTable() {
 	srand(time(NULL));
 	table.resize(5);
@@ -179,8 +180,9 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/
 }
 
+// update vi tri va xu ly cac thao tac cua cac object: table, ball, paddle, brick, skill
 void BrickGame::update() {
-	paddle_brick->updateforbrick();	//Khác biệt duy nhất với Game.cpp :)))
+	paddle_brick->updateforbrick();	
 	ball_brick->move(paddle_brick, table);
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
@@ -230,7 +232,7 @@ void BrickGame::update() {
 		board.initScore();
 		board.add(ball_brick->getScore_1());
 		resultGame_brick = new message();
-		resultGame_brick->setText("You Win");
+		resultGame_brick->setText("Victory");
 		isRunning = false;
 	}
 	if (new_life == 0)
@@ -239,7 +241,7 @@ void BrickGame::update() {
 		board.initScore();
 		board.add(ball_brick->getScore_1());
 		resultGame_brick = new message();
-		resultGame_brick->setText("You Lose");
+		resultGame_brick->setText("Defeat");
 		isRunning = false;
 	}
 	lifenum->setText(new_life);

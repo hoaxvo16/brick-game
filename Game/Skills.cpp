@@ -1,5 +1,6 @@
 #include "Skills.h"
 
+// khoi tao skill, loot: loai skill, pos: vi tri x the kich hoat skill, neu la skill ten lua thi se co missile_num
 Skills::Skills(vector<vector<Brick*>>& table, int loot, int pos, int missile_num, BallObject*& ball) {
 	_pos = pos;
 	_loot = loot;
@@ -37,6 +38,7 @@ void Skills::update() {
 	destRect.h = _h;
 }
 
+// kich hoat skill laser
 void Skills::execLaser(vector<vector<Brick*>>& table,BallObject*& ball) {
 	setTexture("PNGFile/laser_x.png");
 	_x = _pos * 80 + 10;
@@ -52,6 +54,7 @@ void Skills::execLaser(vector<vector<Brick*>>& table,BallObject*& ball) {
 	}
 }
 
+// khi ten lua cham vat thi ve vu no
 void Skills::renderExplosion(int x, int y) {
 	_start = SDL_GetTicks();
 	destRect.x = x;
@@ -62,6 +65,7 @@ void Skills::renderExplosion(int x, int y) {
 	else if (_missile == 2) setTexture("PNGFile/missile_end2.png");
 }
 
+// kiem tra ten lua cham vien gach
 bool Skills::isTouchWithTarget(Brick* target) {
 	if (destRect.x + 27 >= target->getDestx() &&
 		destRect.x <= target->getDestx() + target->getW() &&
@@ -71,12 +75,13 @@ bool Skills::isTouchWithTarget(Brick* target) {
 	return false;
 }
 
+// kiem tra loai ten lua va update vi tri, pha huy gach
 void Skills::updateMissile(vector<vector<Brick*>>& table, BallObject*& ball) {
 	int targetY;
 	int targetX;
 	size_t targetRow;
 	size_t targetCol;
-	if (_missile == 1) {
+	if (_missile == 1) { // ten lua giua
 		if (_start == 0) {
 			destRect.x = _x;
 			destRect.y -= 4;
@@ -101,7 +106,7 @@ void Skills::updateMissile(vector<vector<Brick*>>& table, BallObject*& ball) {
 			}
 		}
 	}
-	else if (_missile == 2) {
+	else if (_missile == 2) { // ten lua trai
 		if (_start == 0) {
 			destRect.x -= 1.865;
 			destRect.y -= 4;
@@ -121,9 +126,8 @@ void Skills::updateMissile(vector<vector<Brick*>>& table, BallObject*& ball) {
 			if (destRect.y <= 0 || destRect.x <= 0)
 				renderExplosion(destRect.x - 10, destRect.y - 30);
 		}
-
 	}
-	else if (_missile == 3) {
+	else if (_missile == 3) { // ten lua phai
 		if (_start == 0) {
 			destRect.x += 1.865;
 			destRect.y -= 4;
@@ -146,6 +150,7 @@ void Skills::updateMissile(vector<vector<Brick*>>& table, BallObject*& ball) {
 	}
 }
 
+// kich hoat skill ten lua
 void Skills::execMissile(vector<vector<Brick*>>& table) {
 	string texture;
 	if (_missile == 1) {
@@ -172,6 +177,8 @@ void Skills::execMissile(vector<vector<Brick*>>& table) {
 	destRect.h = _h;
 	render();
 }
+
+// kich hoat skill +1 mang
 void Skills::execHp(BallObject*& ball) {
 	int x = ball->getLife() + 1;
 	ball->setLife(x);

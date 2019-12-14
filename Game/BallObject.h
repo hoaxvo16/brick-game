@@ -40,54 +40,18 @@ public:
 	//Xét sự va chạm
 	int isOut();
 	void setLife(int x);
-	void setVx(float x)
-	{
-		velocityX = x;
-	}
-	void setVy(float y)
-	{
-		velocityY = y;
-	}
+	void setVx(float x) { velocityX = x; }
+	void setVy(float y) { velocityY = y; }
 	//Banh ra ngoài chưa?
-	float getVx()
-	{
-		return velocityX;
-	}
-	float getVy()
-	{
-		return velocityY;
-	}
-	int getScore_1()
-	{
-		return score1;
-	}
-	int getScore_2()
-	{
-		return score2;
-	}
-	int getCenterOfBall()	//Lấy tung độ tại tâm quả banh
-	{
-		return ypos + BALL_RADIUS / 2;
-	}
-	int getCenterOfBallOx()
-	{
-		return xpos + BALL_RADIUS / 2;
-	}
-	int getLife()
-	{
-		return life;
-	}
-	int getX()
-	{
-		return xpos;
-	}
-	int getY()
-	{
-		return ypos;
-	}
-	void setScore(int x)
-	{
-		score1 = x;
-	}
+	float getVx() { return velocityX; }
+	float getVy() { return velocityY; }
+	int getScore_1() { return score1; }
+	int getScore_2() { return score2; }
+	int getCenterOfBall() { return ypos + BALL_RADIUS / 2; }
+	int getCenterOfBallOx() { return xpos + BALL_RADIUS / 2; }
+	int getLife() { return life; }
+	int getX() { return xpos; }
+	int getY() { return ypos; }
+	void setScore(int x) { score1 = x; }
 };
 

@@ -22,7 +22,9 @@ void BotPaddle::updateBOT(BallObject *ball)
 		moveDown();
 		moveDown();
 	}
-}	//Điều kiện trong if là để điều chỉnh việc di chuyển của BOT sao cho hợp lí
+}	
+
+//Điều kiện trong if là để điều chỉnh việc di chuyển của BOT sao cho hợp lí
 void BotPaddle::updateBrickBot(BallObject* ball, vector<vector<Brick*>> table)
 {
 	PaddleObject::updateforbrick();//Cập nhật vị trí thanh như bình thường
@@ -32,6 +34,8 @@ void BotPaddle::updateBrickBot(BallObject* ball, vector<vector<Brick*>> table)
 	
 	float closestY = 0;
 	float closestX = -1;
+
+	// tim vi tri cua vat pham gan nhat
 	for (size_t i = 0; i < 5; i++) {
 		for (size_t j = 0; j < 10; j++) {
 			Brick* rew = table[i][j];
@@ -41,6 +45,8 @@ void BotPaddle::updateBrickBot(BallObject* ball, vector<vector<Brick*>> table)
 			}
 		}
 	}
+
+	// tim muc do uu tien cua vat pham hay ball
 	if ((closestX != -1 && ball->getVy() < 0) || (ball->getVy() < 2 && ball->getY() < closestY)) {
 		if (closestX < xPaddle + 5 && xPaddle > 0)
 			moveLeft();
