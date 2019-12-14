@@ -98,7 +98,7 @@ void BrickGameBot::init(std::string title, int xpos, int ypos, int width, int he
 }
 
 void BrickGameBot::update() {
-	paddle_brickBOT->updateBrickBot( ball_brickBOT);//Khác biệt duy nhất với Game.cpp :)))
+	paddle_brickBOT->updateBrickBot( ball_brickBOT, table);//Khác biệt duy nhất với Game.cpp :)))
 	 ball_brickBOT->move(paddle_brickBOT, table);
 	 for (size_t i = 0; i < table.size(); i++) {
 		 for (size_t j = 0; j < table[i].size(); j++) {
@@ -134,6 +134,7 @@ void BrickGameBot::update() {
 	 }
 	 if (skillExe2BOT != NULL) {
 		 skillExe2BOT->updateMissile(table,ball_brickBOT);
+		 //skillExe2BOT->updateMissile()
 		 if (skillExe2BOT->getStart() != 0 && SDL_GetTicks() - skillExe2BOT->getStart() > skillExe2BOT->getDuration())
 			 skillExe2BOT = NULL;
 	 }
