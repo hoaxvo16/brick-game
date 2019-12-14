@@ -29,7 +29,6 @@ void BotPaddle::updateBrickBot(BallObject* ball, vector<vector<Brick*>> table)
 	int target = rand() % 152 + 5;
 	float yball = ball->getY();
 	float xPaddle = getPaddleXpos();
-	
 	float closestY = 0;
 	float closestX = -1;
 	for (size_t i = 0; i < 5; i++) {

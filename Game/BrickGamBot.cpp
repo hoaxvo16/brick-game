@@ -171,7 +171,8 @@ void BrickGameBot::render() {
 	lifepic.y = 0;
 	scorepic.w = 100;
 	scorepic.h = 40;
-	scorepic.x = scorepic.y = 0;
+	scorepic.x = 0;
+	scorepic.y = 5;
 	SDL_RenderCopy(BrickGameBot::rendered, background_brickBOT, NULL, NULL);
 	SDL_RenderCopy(BrickGameBot::rendered, lifeBOT, NULL, &lifepic);
 	SDL_RenderCopy(BrickGameBot::rendered, scoretextBOT, NULL, &scorepic);

@@ -227,8 +227,8 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 	if (edgeRes == 2) {
 		strikeAngle(paddle);
 		if (speed <= 30) {	//Tăng theo gia tốc, tối đa 30 lần
-			velocityX *= 1 + accelerate;
-			velocityY *= 1 + accelerate;
+			velocityX += velocityX * 0.1;
+			velocityY += velocityY * 0.1;
 			speed++;
 		}
 		return true;

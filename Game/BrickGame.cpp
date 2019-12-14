@@ -243,7 +243,8 @@ void BrickGame::render() {
 	lifepic.y = 0;
 	scorepic.w = 100;
     scorepic.h = 40;
-	scorepic.x = scorepic.y = 0;
+	scorepic.x = 0;
+	scorepic.y = 5;
 	SDL_RenderCopy(BrickGame::rendered, background_brick, NULL, NULL);
 	SDL_RenderCopy(BrickGame::rendered, life, NULL, &lifepic);
 	SDL_RenderCopy(BrickGame::rendered, scoretext, NULL, &scorepic);
