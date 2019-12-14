@@ -158,7 +158,10 @@ void BrickGame::init(std::string title, int xpos, int ypos, int width, int heigh
 		scoreShow_brick = new message();
 		lifenum = new message();
 		resultGame_brick = NULL;
-		ball_brick->setVx(-1.8);
+		srand(time(NULL));
+		float Vx[2] = { -1.8,1.8};
+		int x = rand() % 2;
+		ball_brick->setVx(Vx[x]);
 		ball_brick->setVy(1.8);
 	}
 	/*Khởi tạo các biến để ghi dạng text lên cửa sổ*/

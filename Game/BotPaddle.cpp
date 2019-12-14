@@ -30,11 +30,9 @@ void BotPaddle::updateBrickBot(BallObject* ball)
 	if (centerBall < xpos + PADDLE_WIDTH / 2 + 20)	//Nếu banh đi xuống phía trên thanh
 	{
 		moveLeft();
-		moveLeft();
 	}
 	else if (centerBall > xpos - PADDLE_WIDTH / 2 - 20)	//Ngược lại
 	{
-		moveRight();
 		moveRight();
 	}
 }
