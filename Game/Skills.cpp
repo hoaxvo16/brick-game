@@ -58,7 +58,8 @@ void Skills::renderExplosion(int x, int y) {
 	destRect.y = y;
 	destRect.w = 100;
 	destRect.h = 100;
-	setTexture("PNGFile/missile_end1.png");
+	if (_missile == 1 || _missile == 3) setTexture("PNGFile/missile_end1.png");
+	else if (_missile == 2) setTexture("PNGFile/missile_end2.png");
 }
 
 bool Skills::isTouchWithTarget(Brick* target) {
