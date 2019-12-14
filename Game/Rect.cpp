@@ -1,4 +1,4 @@
-#include "Rect.h"
+﻿#include "Rect.h"
 
 int Rect::getX() { return _x; }
 
@@ -7,7 +7,7 @@ int Rect::getY() { return _y; }
 int Rect::getW() { return _width; }
 
 int Rect::getH() { return _height; }
-
+//Hàm cập nhật trạng thái vật cản sau va chạm
 void Rect::updateHpImg() {
 	//change img
 	_hp--;
@@ -22,7 +22,7 @@ void Rect::updateHpImg() {
 	brickTexture = textureManager::loadTexture(_sheet.c_str());
 }
 
-
+//Hàm vẽ
 void Rect::render() {
 	SDL_RenderCopy(Game::rendered, brickTexture, NULL, &destRect);
 }

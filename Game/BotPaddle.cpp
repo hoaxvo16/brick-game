@@ -22,7 +22,9 @@ void BotPaddle::updateBOT(BallObject *ball)
 		moveDown();
 		moveDown();
 	}
-}	//Điều kiện trong if là để điều chỉnh việc di chuyển của BOT sao cho hợp lí
+}	
+//Điều kiện trong if là để điều chỉnh việc di chuyển của BOT sao cho hợp lí
+//Hàm di chuyển BOT paddle
 void BotPaddle::updateBrickBot(BallObject* ball, vector<vector<Brick*>> table)
 {
 	PaddleObject::updateforbrick();//Cập nhật vị trí thanh như bình thường

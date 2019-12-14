@@ -294,6 +294,7 @@ int drawSubMenuNotSave(AbstractGame* gameWindow, const int FPS)
 	}
 	return decision;
 }
+//Hàm kiểm tra save game
 bool isSaveGame()
 {
 	string s;

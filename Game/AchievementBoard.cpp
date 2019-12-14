@@ -5,6 +5,7 @@ SDL_Texture* silver = NULL;
 SDL_Texture* bronze = NULL;
 SDL_Rect rect1,rect2,rect3;
 message* temp = NULL;
+//Hàm sắp xếp điểm
 void AchievementBoard::Sort()
 {
 	for (int i = 0; i < score.size()-1; i++)
@@ -14,6 +15,7 @@ void AchievementBoard::Sort()
 				swap(score[i], score[j]);
 	}
 }
+//Hàm khởi tạo điểm
 void AchievementBoard::initScore()
 {
 	if (CheckEmpty())
@@ -35,6 +37,7 @@ void AchievementBoard::initScore()
 		delRep();
 	}
 }
+//Hàm khởi tạo màn hình
 void AchievementBoard::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen,int savegame)
 {
 	initScore();
@@ -69,8 +72,6 @@ void AchievementBoard::init(std::string title, int xpos, int ypos, int width, in
 	else {
 		isRunning = false; //Nếu tất cả mọi thử ở trên thất bại thì thôi nghỉ game
 	}
-	//SDL_Surface* tmpSurface = IMG_Load("PNGFile/title.png");	//Tạo một mặt phẳng để lưu lại hình vẽ trong file
-	//SDL_Texture* texture = SDL_CreateTextureFromSurface(AchievementBoard::rendered, tmpSurface);
 	background_board = textureManager::loadTexture("PNGFile/title.png");
 	golden = textureManager::loadTexture("PNGFile/goldenmedal.png");
 	silver = textureManager::loadTexture("PNGFile/silvermedal.png");
@@ -85,6 +86,7 @@ void AchievementBoard::init(std::string title, int xpos, int ypos, int width, in
 		mess[i] = temp;
 	}
 }
+//Hàm xóa điểm trùng nhau
 void AchievementBoard::delRep()
 {
 
@@ -95,6 +97,7 @@ void AchievementBoard::delRep()
 				score.erase(score.begin() + i);
 	}
 }
+//Hàm thêm điểm mới
 void AchievementBoard::add(int x)
 {
 	score.push_back(x);
@@ -111,6 +114,7 @@ void AchievementBoard::add(int x)
 	}
 	fileout.close();
 }
+//Hàm kiểm tra file điểm rỗng
 bool AchievementBoard::CheckEmpty()
 {
 	string s;
@@ -122,6 +126,7 @@ bool AchievementBoard::CheckEmpty()
 		return true;
 	return false;
 }
+//Hàm vẽ lên cửa sổ
 void AchievementBoard::render()
 {
 	rect1.x = 110;
@@ -130,11 +135,10 @@ void AchievementBoard::render()
 	rect1.y = 380;
 	rect2.y = rect1.y + 15;
 	rect3.y = rect2.y + 45;
+	SDL_Rect rect[3] = { rect1,rect2,rect3 };
+	SDL_Texture* text[3] = { golden,silver,bronze };
 	SDL_RenderClear(rendered);
 	SDL_RenderCopy(AchievementBoard::rendered,background_board, NULL, NULL);
-	SDL_RenderCopy(AchievementBoard::rendered, golden, NULL, &rect1);
-	SDL_RenderCopy(AchievementBoard::rendered, silver, NULL, &rect2);
-	SDL_RenderCopy(AchievementBoard::rendered, bronze, NULL, &rect3);
 	int x = 80, y = 380;
 	message* title = new message();
 	title->setText("Achievement: ");
@@ -145,6 +149,12 @@ void AchievementBoard::render()
 	message* score = new message();
     score->setText("Score ");
 	score->render(x+200, 300, 60, 100);
+	for (int i = 0; i < mess.size(); i++)
+	{
+		if (i == 3)
+			break;
+		SDL_RenderCopy(AchievementBoard::rendered, text[i], NULL, &rect[i]);
+	}
 	for (int i = 0; i < mess.size(); i++)
 	{  
 		message* temp1 = new message();
@@ -162,6 +172,7 @@ void AchievementBoard::clean()
 	SDL_Quit();	//Thoát khỏi hoàn toàn việc sử dụng SDL
 	std::cout << "Game Cleansed!" << std::endl;
 }
+//Hàm xử lý yêu cầu người dùng
 void AchievementBoard::handleEvents()
 {
 	SDL_Event event;

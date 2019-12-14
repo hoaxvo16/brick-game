@@ -20,6 +20,8 @@ private:
 	int score1 = 0;	//Điểm của player 1
 	int score2 = 0;	//Điểm của player 2
 	int life;
+	float velocity;
+
 public:
 	BallObject(const char* ballsheet, int x, int y);
 	~BallObject();

@@ -5,27 +5,21 @@
 #include "BotPaddle.h"
 #include "BallObject.h"
 #include "message.h"
-BotPaddle* paddle_brickBOT = NULL;
-BallObject*  ball_brickBOT = NULL;
-SDL_Texture* background_brickBOT = NULL;
-SDL_Texture* lifeBOT = NULL;
+BotPaddle* paddle_brickBOT = NULL;// thanh trượt
+BallObject*  ball_brickBOT = NULL;// trái banh
+SDL_Texture* background_brickBOT = NULL;// nền
+SDL_Texture* lifeBOT = NULL;//mạng
 SDL_Texture* scoretextBOT = NULL;
 Skills* skillExe1BOT = NULL;
 Skills* skillExe2BOT = NULL; // 2 more for missile skill
-Skills* skillExe3BOT = NULL;
-//SDL_Renderer* Game::rendered = NULL;
-//Biến rendered được dùng để render(lưu lại những hình vẽ và vị trí của mỗi object, chờ cơ hội để bộc phát)
-message* scoreShow_brickBOT = NULL;	//Cái tỉ số bên tay trái á
-	//Này bên tay phải
-message* resultGame_brickBOT = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
-
+Skills* skillExe3BOT = NULL;//skill của game
+message* scoreShow_brickBOT = NULL;	//Điểm
+message* resultGame_brickBOT = NULL;//Cái này nếu thua hay thắng thì nó sẽ hiện lên
 float xballBOT = WINDOW_WIDTH / 2;
 float yballBOT = WINDOW_HEIGHT - 350;
 message* lifenumBOT = NULL;
-
 int xpaddleBOT = WINDOW_WIDTH / 2 - 80;
 int ypaddleBOT = WINDOW_HEIGHT - 10;
-
 BrickGameBot::BrickGameBot() {
 
 }

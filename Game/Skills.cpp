@@ -1,5 +1,5 @@
-#include "Skills.h"
-
+﻿#include "Skills.h"
+//Hàm khởi tạo skill lựa trên kiểu skill
 Skills::Skills(vector<vector<Brick*>>& table, int loot, int pos, int missile_num, BallObject*& ball) {
 	_pos = pos;
 	_loot = loot;
@@ -21,22 +21,22 @@ Skills::Skills(vector<vector<Brick*>>& table, int loot, int pos, int missile_num
 		break;
 	}
 }
-
+//Hàm set ảnh
 void Skills::setTexture(string sheet) {
 	skillTexture = textureManager::loadTexture(sheet.c_str());
 }
-
+//Hàm vẽ
 void Skills::render() {
 	SDL_RenderCopyF(Game::rendered, skillTexture, NULL, &destRect);
 }
-
+//Hàm cập nhật vị trí ảnh
 void Skills::update() {
 	destRect.x = _x;
 	destRect.y = _y;
 	destRect.w = _w;
 	destRect.h = _h;
 }
-
+//Hàm khởi tạo laser
 void Skills::execLaser(vector<vector<Brick*>>& table,BallObject*& ball) {
 	setTexture("PNGFile/laser_x.png");
 	_x = _pos * 80 + 10;
@@ -51,16 +51,17 @@ void Skills::execLaser(vector<vector<Brick*>>& table,BallObject*& ball) {
 		}
 	}
 }
-
+//Hàm vẽ hiệu ứng nổ khi va chạm
 void Skills::renderExplosion(int x, int y) {
 	_start = SDL_GetTicks();
 	destRect.x = x;
 	destRect.y = y;
 	destRect.w = 100;
 	destRect.h = 100;
-	setTexture("PNGFile/missile_end1.png");
+	if (_missile == 1 || _missile == 3) setTexture("PNGFile/missile_end1.png");
+	else if (_missile == 2) setTexture("PNGFile/missile_end2.png");
 }
-
+//Hàm kiểm tra va chạm
 bool Skills::isTouchWithTarget(Brick* target) {
 	if (destRect.x + 27 >= target->getDestx() &&
 		destRect.x <= target->getDestx() + target->getW() &&
@@ -69,7 +70,7 @@ bool Skills::isTouchWithTarget(Brick* target) {
 		return true;
 	return false;
 }
-
+//Hàm di chuyển tên lửa
 void Skills::updateMissile(vector<vector<Brick*>>& table, BallObject*& ball) {
 	int targetY;
 	int targetX;
@@ -144,7 +145,7 @@ void Skills::updateMissile(vector<vector<Brick*>>& table, BallObject*& ball) {
 		}
 	}
 }
-
+//Hàm khởi tạo tên lửa
 void Skills::execMissile(vector<vector<Brick*>>& table) {
 	string texture;
 	if (_missile == 1) {
@@ -171,6 +172,7 @@ void Skills::execMissile(vector<vector<Brick*>>& table) {
 	destRect.h = _h;
 	render();
 }
+//Hàm thêm mạng
 void Skills::execHp(BallObject*& ball) {
 	int x = ball->getLife() + 1;
 	ball->setLife(x);

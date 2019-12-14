@@ -8,6 +8,7 @@ BallObject::BallObject(const char* ballsheet, int x, int y)
 	//Đọc file hình quả banh
 	xpos = x;
 	ypos = y;
+	velocity = 0;
 	velocityX = 0;	
 	velocityY = 0;
 	//Khởi tạo cho quả banh
@@ -16,6 +17,7 @@ BallObject::~BallObject()
 {
 
 }
+//Hàm xử lý game
 void BallObject::update()
 {
 	srcRect.x = 0;
@@ -39,6 +41,7 @@ void BallObject::update()
 	//	count = 0;	//Set số lần tăng gia tốc về ban đầu
 	//}
 	if (outSide == 1) {
+		//Neus trái banh đi ra ngoài cập nhật lại vị trí trừ mạng đi
 		xpos = WINDOW_WIDTH / 2;	
         ypos = WINDOW_HEIGHT - 300;
 		speed = 0;
@@ -61,11 +64,12 @@ void BallObject::move(PaddleObject *p1, PaddleObject *p2)
 		velocityX -= 2.9;
 		velocityY -= 2.9;
 	}
-	xpos += velocityX;	//Cộng theo vận tốc
+	xpos += velocityX;	//Cộng theo vận tốc cai con cac
 	ypos += velocityY;
 	isTouch(p1, p2);	//Xét sự va chạm
 
 }
+//Hàm kiểm tra va chạm giữa trái banh với thanh trượt và vật cản
 bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 {
 	int paddleWidth = PADDLE_WIDTH;
@@ -113,7 +117,14 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 	}
 	return false;
 }
+//Hàm di chuyển trái banh
 void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
+	if (velocity == 0) {
+		float startAngle = 120 * PI / 180;
+		velocity = 2.9;
+		velocityX = velocity * cos(startAngle);
+		velocityY = velocity * sin(startAngle);
+	}
 	xpos += velocityX;	//Cộng theo vận tốc
 	ypos += velocityY;
 	isTouch(p);	//Xét sự va chạm
@@ -134,6 +145,7 @@ void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
 		target->updateHpImg();
 	}
 }
+//Hàm kiểm tra va chạm
 int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, int rw, int rh) {
 	// temporary variables to set edges for testing
 	float testX = cx;
@@ -171,11 +183,8 @@ int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, i
 		return edge;
 	return -1;
 }
-float BallObject::getV() {
-	return sqrtf(velocityX * velocityX + velocityY * velocityY);
-}
 void BallObject::setAngle(float deg) {
-	float curV = getV();
+	float curV = velocity;
 	velocityX = curV * cosf(deg);
 	velocityY = curV * sinf(deg);
 }
@@ -211,6 +220,7 @@ void BallObject::strikeAngle(PaddleObject* paddle) {
 	else if (mid + layer1 + layer2 < ballX && ballX <= paddle->getPaddleXpos() + PADDLE_HEIGHT)
 		setAngle(-halfPI + strike3);
 }
+//Hàm kiểm tra chạm thanh trượt
 bool BallObject::isTouch(PaddleObject* paddle) {
 
 	if (ypos <= 0) {
@@ -225,16 +235,16 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 	int paddleYpos = paddle->getPaddleYpos();
 	int edgeRes = rectCollided(xpos, ypos, BALL_RADIUS + 0.0, paddleXpos, paddleYpos, PADDLE_HEIGHT, PADDLE_WIDTH);
 	if (edgeRes == 2) {
-		strikeAngle(paddle);
-		if (speed <= 30) {	//Tăng theo gia tốc, tối đa 30 lần
-			velocityX += velocityX * 0.1;
-			velocityY += velocityY * 0.1;
+		if (speed <= 100) {	//Tăng theo gia tốc, tối đa 100 lần
+			velocity *= 1 + accelerate;
 			speed++;
 		}
+		strikeAngle(paddle);
 		return true;
 	}
 	return false;
 }
+//Hàm trả về trạng thái vật cản sau khi va chạm
 Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
@@ -279,14 +289,15 @@ Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 //	}
 //	return 0;
 //}
-
+//Hàm kiểm tra trái banh di ra ngoài
 int BallObject::isOut() {
 	if (ypos > WINDOW_HEIGHT + 5) {
 		srand(time(NULL));
-		float Vx[2] = { -1.8,1.8 };
+		float A[2] = { 120 * PI / 180 , 60 * PI / 180 };
 		int x = rand() % 2;
-		velocityX = Vx[x];
-		velocityY = 1.8;
+		velocity = 2.9;
+		velocityX = velocity * cos(A[x]);
+		velocityY = velocity * sin(A[x]);
 		return 1;
 	}
 	return 0;
@@ -303,6 +314,7 @@ float random()
 	}
 	return ran;
 }
+//Hàm set mạng
 void BallObject::setLife(int x)
 {
 	life = x;
