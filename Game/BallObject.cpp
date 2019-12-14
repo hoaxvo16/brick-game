@@ -8,6 +8,7 @@ BallObject::BallObject(const char* ballsheet, int x, int y)
 	//Đọc file hình quả banh
 	xpos = x;
 	ypos = y;
+	velocity = 0;
 	velocityX = 0;	
 	velocityY = 0;
 	//Khởi tạo cho quả banh
@@ -61,7 +62,7 @@ void BallObject::move(PaddleObject *p1, PaddleObject *p2)
 		velocityX -= 2.9;
 		velocityY -= 2.9;
 	}
-	xpos += velocityX;	//Cộng theo vận tốc
+	xpos += velocityX;	//Cộng theo vận tốc cai con cac
 	ypos += velocityY;
 	isTouch(p1, p2);	//Xét sự va chạm
 
@@ -114,6 +115,12 @@ bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 	return false;
 }
 void BallObject::move(PaddleObject* p, vector<vector<Brick*>>& table) {
+	if (velocity == 0) {
+		float startAngle = 120 * PI / 180;
+		velocity = 2.9;
+		velocityX = velocity * cos(startAngle);
+		velocityY = velocity * sin(startAngle);
+	}
 	xpos += velocityX;	//Cộng theo vận tốc
 	ypos += velocityY;
 	isTouch(p);	//Xét sự va chạm
@@ -171,11 +178,9 @@ int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, i
 		return edge;
 	return -1;
 }
-float BallObject::getV() {
-	return sqrtf(velocityX * velocityX + velocityY * velocityY);
-}
+
 void BallObject::setAngle(float deg) {
-	float curV = getV();
+	float curV = velocity;
 	velocityX = curV * cosf(deg);
 	velocityY = curV * sinf(deg);
 }
@@ -225,12 +230,13 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 	int paddleYpos = paddle->getPaddleYpos();
 	int edgeRes = rectCollided(xpos, ypos, BALL_RADIUS + 0.0, paddleXpos, paddleYpos, PADDLE_HEIGHT, PADDLE_WIDTH);
 	if (edgeRes == 2) {
-		strikeAngle(paddle);
-		if (speed <= 30) {	//Tăng theo gia tốc, tối đa 30 lần
-			velocityX *= 1 + accelerate;
-			velocityY *= 1 + accelerate;
+		if (speed <= 100) {	//Tăng theo gia tốc, tối đa 100 lần
+			velocity *= 1 + accelerate;
+
 			speed++;
 		}
+		strikeAngle(paddle);
+
 		return true;
 	}
 	return false;
@@ -283,10 +289,11 @@ Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 int BallObject::isOut() {
 	if (ypos > WINDOW_HEIGHT + 5) {
 		srand(time(NULL));
-		float Vx[2] = { -1.8,1.8 };
+		float A[2] = { 120 * PI / 180 , 60 * PI / 180 };
 		int x = rand() % 2;
-		velocityX = Vx[x];
-		velocityY = 1.8;
+		velocity = 2.9;
+		velocityX = velocity * cos(A[x]);
+		velocityY = velocity * sin(A[x]);
 		return 1;
 	}
 	return 0;
