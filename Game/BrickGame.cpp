@@ -15,23 +15,20 @@ Skills* skillExe3 = NULL;
 //SDL_Renderer* Game::rendered = NULL;
 //Biến rendered được dùng để render(lưu lại những hình vẽ và vị trí của mỗi object, chờ cơ hội để bộc phát)
 message* scoreShow_brick = NULL;	//Cái tỉ số bên tay trái á
-	//Này bên tay phải
 message* resultGame_brick = NULL;		//Cái này nếu thua hay thắng thì nó sẽ hiện lên
-
 float xball = WINDOW_WIDTH / 2;
 float yball = WINDOW_HEIGHT - 350;
 message* lifenum = NULL;
-
 int xpaddle = WINDOW_WIDTH / 2 - 80;
 int ypaddle = WINDOW_HEIGHT - 10;
-
 BrickGame::BrickGame() {
 
 }
 BrickGame::~BrickGame() {
 
 }
-// khoi tao vi tri cua vien gach va vat pham de luu tren table
+
+//Hàm khởi tạo ma trận vật cản
 void BrickGame::initTable() {
 	srand(time(NULL));
 	table.resize(5);
@@ -59,6 +56,7 @@ void BrickGame::initTable() {
 		}
 	}
 }
+/*Hàm khởi tạo game từ file đã lưu*/
 void BrickGame::initSave(){
 	int newlife;
 	int newscore;
@@ -122,6 +120,7 @@ void BrickGame::initSave(){
 	ball_brick->setVx(vx);
 	ball_brick->setVy(vy);
 }
+//Hàm khởi tạo game
 void BrickGame::init(std::string title, int xpos, int ypos, int width, int height, bool fullscreen,int savegame) {
 	int flag = 0;	//flag = 0 báo hiệu cho việc chúng ta sẽ sử dụng cửa sổ chứ không phải fullscreen
 	if (fullscreen) {
@@ -246,6 +245,7 @@ void BrickGame::update() {
 	}
 	lifenum->setText(new_life);
 }
+//Hàm vẽ lên màn hình
 void BrickGame::render() {
 	SDL_RenderClear(rendered);
 	SDL_Rect scorepic;
@@ -256,7 +256,8 @@ void BrickGame::render() {
 	lifepic.y = 0;
 	scorepic.w = 100;
     scorepic.h = 40;
-	scorepic.x = scorepic.y = 0;
+	scorepic.x = 0;
+	scorepic.y = 5;
 	SDL_RenderCopy(BrickGame::rendered, background_brick, NULL, NULL);
 	SDL_RenderCopy(BrickGame::rendered, life, NULL, &lifepic);
 	SDL_RenderCopy(BrickGame::rendered, scoretext, NULL, &scorepic);
@@ -301,6 +302,7 @@ void BrickGame::handleEvents() {
 		}
 	}
 }
+//Hàm lưu game
 void BrickGame::saveGame()
 {
 	ofstream fileout;
@@ -330,6 +332,7 @@ void BrickGame::saveGame()
 	}
 	fileout.close();
 }
+//Hàm xóa file game đã lưu
 void BrickGame::cleanSave()
 {
 	ofstream fileout;
@@ -337,6 +340,7 @@ void BrickGame::cleanSave()
 	fileout << "";
 	fileout.close();
 }
+//Hàm kiểm tra thắng thua
 bool BrickGame::isWin()
 {
 	for (size_t i = 0; i < table.size(); i++) {
@@ -347,6 +351,7 @@ bool BrickGame::isWin()
 	}
 	return true;
 }
+//Hàm xóa mọi thứ
 void BrickGame::clean() {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(rendered);

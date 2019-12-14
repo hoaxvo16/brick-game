@@ -22,15 +22,15 @@ Skills::Skills(vector<vector<Brick*>>& table, int loot, int pos, int missile_num
 		break;
 	}
 }
-
+//Hàm set ảnh
 void Skills::setTexture(string sheet) {
 	skillTexture = textureManager::loadTexture(sheet.c_str());
 }
-
+//Hàm vẽ
 void Skills::render() {
 	SDL_RenderCopyF(Game::rendered, skillTexture, NULL, &destRect);
 }
-
+//Hàm cập nhật vị trí ảnh
 void Skills::update() {
 	destRect.x = _x;
 	destRect.y = _y;
@@ -54,7 +54,7 @@ void Skills::execLaser(vector<vector<Brick*>>& table,BallObject*& ball) {
 	}
 }
 
-// khi ten lua cham vat thi ve vu no
+//Hàm vẽ hiệu ứng nổ khi va chạm
 void Skills::renderExplosion(int x, int y) {
 	_start = SDL_GetTicks();
 	destRect.x = x;

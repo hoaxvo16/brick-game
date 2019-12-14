@@ -17,6 +17,7 @@ BallObject::~BallObject()
 {
 
 }
+//Hàm xử lý game
 void BallObject::update()
 {
 	srcRect.x = 0;
@@ -40,6 +41,7 @@ void BallObject::update()
 	//	count = 0;	//Set số lần tăng gia tốc về ban đầu
 	//}
 	if (outSide == 1) {
+		//Neus trái banh đi ra ngoài cập nhật lại vị trí trừ mạng đi
 		xpos = WINDOW_WIDTH / 2;	
         ypos = WINDOW_HEIGHT - 300;
 		speed = 0;
@@ -67,6 +69,7 @@ void BallObject::move(PaddleObject *p1, PaddleObject *p2)
 	isTouch(p1, p2);	//Xét sự va chạm
 
 }
+//Hàm kiểm tra va chạm giữa trái banh với thanh trượt và vật cản
 bool BallObject::isTouch(PaddleObject *paddle1, PaddleObject *paddle2)
 {
 	int paddleWidth = PADDLE_WIDTH;
@@ -178,7 +181,6 @@ int BallObject::rectCollided(float cx, float cy, float radius, int rx, int ry, i
 		return edge;
 	return -1;
 }
-
 void BallObject::setAngle(float deg) {
 	float curV = velocity;
 	velocityX = curV * cosf(deg);
@@ -240,7 +242,7 @@ bool BallObject::isTouch(PaddleObject* paddle) {
 	return false;
 }
 
-// kiem tra va cham giua ball va vien gach
+// kiem tra va cham giua ball va vien gach va tra ve trang thai vien gach
 Brick* BallObject::isTouchWithTarget(vector<vector<Brick*>> table) {
 	for (size_t i = 0; i < table.size(); i++) {
 		for (size_t j = 0; j < table[i].size(); j++) {
@@ -311,6 +313,7 @@ float random()
 	}
 	return ran;
 }
+//Hàm set mạng
 void BallObject::setLife(int x)
 {
 	life = x;

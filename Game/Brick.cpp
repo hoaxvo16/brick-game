@@ -1,5 +1,5 @@
-#include "Brick.h"
-
+﻿#include "Brick.h"
+//Phương thức khởi tạo cho 2 kiểu brick rect và reward
 Brick::Brick(string brickSheet, int x, int y, int width, int height, string type, int hp, int loot) {
 	brickTexture = textureManager::loadTexture(brickSheet.c_str());
 	_sheet = brickSheet;
@@ -45,14 +45,14 @@ Brick::Brick(int x, int y, int width, int height, int loot,int collected) {
 	_type = "reward";
 	_loot = loot;
 }
-
+//Hàm cập nhật vị trí hình vẽ
 void Brick::update() {
 	destRect.x = _x;
 	destRect.y = _y;
 	destRect.w = _width;
 	destRect.h = _height;
 }
-
+//Hàm cập nhật vị trí vật thưởng
 void Brick::updateReward() {}
-
+//Hàm kiểm tra va chạm với thanh trượt
 int Brick::isTouchWithPaddle(PaddleObject* paddle) { return 0; }

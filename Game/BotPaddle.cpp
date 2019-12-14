@@ -25,13 +25,13 @@ void BotPaddle::updateBOT(BallObject *ball)
 }	
 
 //Điều kiện trong if là để điều chỉnh việc di chuyển của BOT sao cho hợp lí
+//Hàm di chuyển BOT paddle
 void BotPaddle::updateBrickBot(BallObject* ball, vector<vector<Brick*>> table)
 {
 	PaddleObject::updateforbrick();//Cập nhật vị trí thanh như bình thường
 	int target = rand() % 152 + 5;
 	float yball = ball->getY();
 	float xPaddle = getPaddleXpos();
-	
 	float closestY = 0;
 	float closestX = -1;
 

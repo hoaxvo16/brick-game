@@ -1,4 +1,4 @@
-#include "Reward.h"
+﻿#include "Reward.h"
 
 int Reward::getX() { return _x; }
 
@@ -8,14 +8,14 @@ int Reward::getW() { return _width; }
 
 int Reward::getH() { return _height; }
 
-// vat pham roi xuong
+//hàm di chuyển vật thưởng
 void Reward::updateReward() {
 	destRect.x = _x;
 	destRect.y += 2;
 	destRect.w = _width;
 	destRect.h = _height;
 }
-
+//Hàm vẽ
 void Reward::render() {
 	SDL_RenderCopy(Game::rendered, rewardTexture, NULL, &destRect);
 }
@@ -31,7 +31,7 @@ int Reward::isTouchWithPaddle(PaddleObject* paddle) {
 	return 0;
 }
 
-// kiem tra neu vat pham ra khoi mang hinh
+//Hàm kiểm tra vật thương ra ngoài màn hình
 bool Reward::isOut() {
 	if (destRect.y > WINDOW_HEIGHT)
 		return true;
